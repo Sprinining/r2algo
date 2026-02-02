@@ -1,66 +1,44 @@
-// https://leetcode.cn/problems/decode-ways/description/
-
-#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-// 从 s[i] 往前 k 个字符能否组成合法的编码（包含 s[i]）
-// k 只能为 1 或 2
-bool isLegal(char* s, int i, int k) {
-    if (k == 1 && i >= 0) {
-        // 单个字符时，范围 1 ~ 9，只要不是字符 0 就是合法的
-        return s[i] != '0';
-    } else if (k == 2 && i >= 1) {
-        // 两个字符时，范围 10 ~ 26
-        int num = ((s[i - 1] - '0') * 10) + (s[i] - '0');
-        if (num >= 10 && num <= 26) return true;
-        return false;
-    } else {
-        return false;
-    }
-}
-
+// 自底向上严格位置依赖
 int numDecodings(char* s) {
+    int len = strlen(s);
+    // 只有一个字符
+    if (len == 1) return s[0] == '0' ? 0 : 1;
+
+    // 两个及以上
+    // 首先排除前导零
     if (s[0] == '0') return 0;
-    int n = strlen(s);
-    int* dp = (int*)malloc(sizeof(int) * n);
-    memset(dp, -1, sizeof(int) * n);
 
-    dp[0] = isLegal(s, 0, 1) ? 1 : 0;
-    if (n == 1) return dp[0];
-
-    if (isLegal(s, 1, 2)) {
-        if (!isLegal(s, 1, 1))
-            dp[1] = 1;
-        else
-            dp[1] = 2;
+    int* dp = (int*)malloc(sizeof(int) * len);
+    dp[0] = 1;
+    int val = (s[0] - '0') * 10 + (s[1] - '0');
+    if (val == 10 || val == 20 || (val > 26 && (val % 10) != 0)) {
+        dp[1] = 1;
+    } else if ((val >= 11 && val <= 19) || (val >= 21 && val <= 26)) {
+        dp[1] = 2;
     } else {
-        if (!isLegal(s, 1, 1))
-            dp[1] = 0;
-        else
-            dp[1] = 1;
+        dp[1] = 0;
     }
 
-    for (int i = 2; i < n; i++) {
-        if (isLegal(s, i, 1)) {
-            // 末尾单字符是合法编码
-            if (!isLegal(s, i, 2)) {
-                // 但最后两个字符不能组成合法编码，那这两个字符必须分割开，返回子问题
-                dp[i] = dp[i - 1];
-            } else {
-                dp[i] = dp[i - 1] + dp[i - 2];
-            }
-        } else {
-            // 末尾单字符不是合法编码
-            if (!isLegal(s, i, 2)) {
-                // 如果最后两个字符也不能组成合法编码，那整个字符串就无法解码
-                dp[i] = 0;
-            } else {
-                // 如果最后两个字符能组成合法编码，那这两个字符就不可分割，返回子问题
-                dp[i] = dp[i - 2];
-            }
+    for (int i = 2; i < len; i++) {
+        int val = (s[i - 1] - '0') * 10 + (s[i] - '0');
+        if (val == 0 || (val > 26 && (val % 10 == 0))) {
+            // 非法编码：00,30,40,50...
+            dp[i] = 0;
+        } else if (val == 10 || val == 20) {
+            // 两个字符不可分割：10,20
+            dp[i] = dp[i - 2];
+        } else if ((val >= 1 && val <= 9) || (val > 26 && (val % 10) != 0)) {
+            // 两个字符必须分割
+            dp[i] = dp[i - 1];
+        } else if ((val >= 11 && val <= 19) || (val >= 21 && val <= 26)) {
+            // 可以分割
+            dp[i] = dp[i - 1] + dp[i - 2];
         }
     }
-    return dp[n - 1];
+
+    return dp[len - 1];
 }

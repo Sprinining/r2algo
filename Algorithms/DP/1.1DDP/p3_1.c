@@ -1,50 +1,32 @@
-// https://leetcode.cn/problems/decode-ways/description/
+// https://leetcode.cn/problems/decode-ways/submissions/695812167/
 
-#include <stdbool.h>
-#include <stdio.h>
 #include <string.h>
-
-// 从 s[i] 往前 k 个字符能否组成合法的编码（包含 s[i]）
-// k 只能为 1 或 2
-bool isLegal(char* s, int i, int k) {
-    if (k == 1 && i >= 0) {
-        // 单个字符时，范围 1 ~ 9，只要不是字符 0 就是合法的
-        return s[i] != '0';
-    } else if (k == 2 && i >= 1) {
-        // 两个字符时，范围 10 ~ 26
-        int num = ((s[i - 1] - '0') * 10) + (s[i] - '0');
-        if (num >= 10 && num <= 26) return true;
-        return false;
-    } else {
-        return false;
-    }
-}
 
 // 返回 s[0...n] 的解码总数
 int func(char* s, int n) {
+    // 两种基线条件
     if (n < 0) return 1;
-    if (n == 0 && isLegal(s, n, 1)) return 1;
-    if (isLegal(s, n, 1)) {
-        // 末尾单字符是合法编码
-        if (!isLegal(s, n, 2)) {
-            // 但最后两个字符不能组成合法编码，那这两个字符必须分割开，返回子问题
-            return func(s, n - 1);
-        } else {
-            return func(s, n - 1) + func(s, n - 2);
-        }
+    if (n == 0) return s[0] != '0' ? 1 : 0;
+
+    int val = (s[n - 1] - '0') * 10 + (s[n] - '0');
+    if (val == 0 || (val > 26 && (val % 10 == 0))) {
+        // 非法编码：00,30,40,50...
+        return 0;
+    } else if (val == 10 || val == 20) {
+        // 两个字符不可分割：10,20
+        return func(s, n - 2);
+    } else if ((val >= 1 && val <= 9) || (val > 26 && (val % 10) != 0)) {
+        // 两个字符必须分割
+        return func(s, n - 1);
     } else {
-        // 末尾单字符不是合法编码
-        if (!isLegal(s, n, 2)) {
-            // 如果最后两个字符也不能组成合法编码，那整个字符串就无法解码
-            return 0;
-        } else {
-            // 如果最后两个字符能组成合法编码，那这两个字符就不可分割，返回子问题
-            return func(s, n - 2);
-        }
+        // (val >= 11 && val <= 19) || (val >= 21 && val <= 26)
+        // 可以分割
+        return func(s, n - 1) + func(s, n - 2);
     }
 }
 
 int numDecodings(char* s) {
     if (s[0] == '0') return 0;
-    return func(s, strlen(s) - 1);
+    int len = strlen(s);
+    return func(s, len - 1);
 }
