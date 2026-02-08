@@ -1,22 +1,23 @@
-int max(int a, int b) {
-    return a > b ? a : b;
-}
+#include <stdio.h>
+#include <string.h>
 
-// 返回下标left~right的最长回文子序列长度
-int recursive(char *s, int left, int right) {
-//    if (left > right) return 0;   
-    // 只有一个元素
+int mmax(int a, int b) { return a > b ? a : b; }
+
+// 返回 s[left, right] 的最长回文子序列
+int func(char* s, int left, int right) {
+    if (left > right) return 0;
     if (left == right) return 1;
-    // 只有两个元素
-    if (left + 1 == right) return s[left] == s[right] ? 2 : 1;
-    if (s[left] == s[right]) {
-        return recursive(s, left + 1, right - 1) + 2;
-    } else {
-        return max(recursive(s, left, right - 1), recursive(s, left + 1, right));
-    }
+    // 由 s[left+1, right-1] 得到，与两端字符无关
+    int p1 = func(s, left + 1, right - 1);
+    // 与其中一端的字符有关
+    int p2 = func(s, left + 1, right);
+    int p3 = func(s, left, right - 1);
+    // 两端相对
+    int p4 = s[left] == s[right] ? p1 + 2 : 0;
+    return mmax(mmax(p1, p2), mmax(p3, p4));
 }
 
-// 暴力超时
-int longestPalindromeSubseq(char *s) {
-    return recursive(s, 0, strlen(s) - 1);
+int longestPalindromeSubseq(char* s) {
+    int len = strlen(s);
+    return func(s, 0, len - 1);
 }
