@@ -102,3 +102,82 @@ int main() {
 | 26   | [int mbtowc(whcar_t *pwc, const char *str, size_t n)](https://www.runoob.com/cprogramming/c-function-mbtowc.html) 检查参数 *str* 所指向的多字节字符。                                                                 |
 | 27   | [size_t wcstombs(char *str, const wchar_t *pwcs, size_t n)](https://www.runoob.com/cprogramming/c-function-wcstombs.html) 把数组 *pwcs* 中存储的编码转换为多字节字符，并把它们存储在字符串 *str* 中。                 |
 | 28   | [int wctomb(char *str, wchar_t wchar)](https://www.runoob.com/cprogramming/c-function-wctomb.html) 检查对应于参数 *wchar* 所给出的多字节字符的编码。                                                                  |
+
+### 二维数组连续分配
+
+#### 每行单独 malloc（非连续内存）
+
+```c
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+int main() {
+    int rows = 6, columns = 4;
+
+    // 分配指针数组
+    int** dp = malloc(sizeof(*dp) * rows);
+    if (!dp) exit(1);
+
+    // 每行单独分配
+    for (int i = 0; i < rows; i++) {
+        dp[i] = malloc(sizeof(*dp[i]) * columns);
+        if (!dp[i]) exit(1);
+        memset(dp[i], 0, sizeof(*dp[i]) * columns);  // 初始化
+    }
+
+    // 使用 dp[i][j]
+    dp[2][1] = 42;
+    printf("%d\n", dp[2][1]);
+
+    // 释放内存
+    for (int i = 0; i < rows; i++) free(dp[i]);
+    free(dp);
+
+    return 0;
+}
+```
+
+#### 整块连续内存
+
+```c
+#include <stdio.h>
+#include <stdlib.h>
+
+int main() {
+    int rows = 6, columns = 4;
+
+    // 指针数组
+    int** dp = malloc(sizeof(*dp) * rows);
+    if (!dp) exit(1);
+
+    // 一块连续内存存放所有元素
+    int* data = calloc(rows * columns, sizeof(*data));
+    if (!data) exit(1);
+
+    // 让 dp[i] 指向每行的起始位置
+    for (int i = 0; i < rows; i++)
+        dp[i] = data + i * columns;
+
+    // 使用 dp[i][j]
+    dp[2][1] = 42;
+    printf("%d\n", dp[2][1]);
+
+    // 释放内存
+    free(data);
+    free(dp);
+
+    return 0;
+}
+```
+
+#### 对比
+
+| 维度        | 每行 malloc                  | 连续内存                   |
+| ----------- | ---------------------------- | -------------------------- |
+| 内存布局    | 每行连续，行与行不连续       | 完全连续                   |
+| malloc 次数 | rows + 1                     | 2                          |
+| 释放        | 需要循环 free 每行 + free dp | 只需要 free data + free dp |
+| 性能        | cache 不友好                 | cache 友好，访问快         |
+| 灵活性      | 每行长度可以不同             | 每行长度必须固定           |
+| 初始化      | 需要循环 memset              | calloc 一次搞定            |
