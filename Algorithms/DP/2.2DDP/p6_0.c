@@ -1,6 +1,6 @@
 #include <string.h>
 
-// 暴力递归
+// 暴力求解
 int numDistinct(char* s, char* t) {
     int len_s = strlen(s);
     int len_t = strlen(t);
