@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+// 空间压缩
 bool isInterleave(char* s1, char* s2, char* s3) {
     int len_s1 = strlen(s1);
     int len_s2 = strlen(s2);

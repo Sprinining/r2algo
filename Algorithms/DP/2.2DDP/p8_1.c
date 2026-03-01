@@ -21,7 +21,8 @@ bool isInterleave(char* s1, char* s2, char* s3) {
     // 第一列表示全都由 s1 提供字符进行拼接
     for (int i = 1; i < rows; i++) dp[i][0] = dp[i - 1][0] && (s1[i - 1] == s3[i - 1]);
 
-    // 当前状态是 dp[i][j]，之前的最后一步只有两个可能：最后一个字符来自 s1 或 s2
+    // 当前状态是 dp[i][j]，字符是一个一个拼接的
+    // 所以之前的最后一步只有两个可能：最后一个拼接进来的字符来自 s1 或 s2
     // 所以只和上方和左侧位置有关
     for (int i = 1; i < rows; i++) {
         for (int j = 1; j < columns; j++) {
