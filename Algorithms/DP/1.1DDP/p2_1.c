@@ -8,6 +8,8 @@ int durations[3] = {1, 7, 30};
 int m1n(int a, int b) { return a < b ? a : b; }
 
 // 返回 days[0...n] 列出的每一天的旅行所需要的最低消费
+// O(3^n * n)，Master 定理不适用，因为子问题大小不等比
+// 递归树法：每个节点最多 3 个子节点；树深 n → 节点数最坏情况 ~ O(3^n)；内部 while 查找 O(n) → 总复杂度 O(n * 3^n)
 int func(int* days, int n, int* costs) {
     if (n < 0) return 0;
     // 最低花费

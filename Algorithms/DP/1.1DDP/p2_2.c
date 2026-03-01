@@ -10,6 +10,7 @@ int m1n(int a, int b) { return a < b ? a : b; }
 
 // 记忆化搜索
 // 返回 days[0...n] 列出的每一天的旅行所需要的最低消费
+// O(n * 3 * n) = O(n^2)
 int func(int* days, int n, int* costs) {
     if (n < 0) return 0;
     // 如果有就不用重复计算
@@ -35,7 +36,7 @@ int func(int* days, int n, int* costs) {
 
 int mincostTickets(int* days, int daysSize, int* costs, int costsSize) {
     // 初始化为 -1
-    dp = (int*)malloc(sizeof(int) * daysSize);
+    dp = malloc(sizeof(*dp) * daysSize);
     memset(dp, -1, sizeof(int) * daysSize);
 
     return func(days, daysSize - 1, costs);
