@@ -11,7 +11,7 @@ int longestPalindromeSubseq(char* s) {
     int len = strlen(s);
     // dp[i][j] 返回 s[i, j] 的最长回文子序列的长度
     dp = malloc(sizeof(*dp) * len);
-    data = calloc(len * len, sizeof(data));
+    data = calloc(len * len, sizeof(*data));
     for (int i = 0; i < len; i++) dp[i] = data + i * len;
 
     // 上三角矩阵
