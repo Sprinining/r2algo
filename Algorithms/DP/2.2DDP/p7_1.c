@@ -10,6 +10,7 @@ int editDistance(char* s, char* t, int a, int b, int c) {
     int columns = strlen(t) + 1;
 
     // dp[i][j] 表示 s 前 i 个字符变换到 t 前 j 个字符的最小编辑距离
+    // 也是资源串到目标串，是主从关系，s 是主（资源串），t 是从（目标串）
     int** dp = malloc(sizeof(*dp) * rows);
     // dp[0][0] = 0
     int* data = calloc(rows * columns, sizeof(*data));
