@@ -37,7 +37,9 @@ int longestIncreasingPath(int** matrix, int matrixSize, int* matrixColSize) {
 
     int res = 0;
     for (int i = 0; i < rows; i++)
-        for (int j = 0; j < columns; j++)
+        for (int j = 0; j < columns; j++) 
             res = mmax(res, func(matrix, i, j, -1));
     return res;
 }
+// 二维压缩成立的前提是：状态具有“单调的遍历顺序”
+// 而这个题状态顺序由数值大小决定，不是由 i,j 决定，dp[i][j] 依赖所有比 matrix[i][j] 大的相邻格子
