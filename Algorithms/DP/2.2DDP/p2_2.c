@@ -7,6 +7,7 @@ int** dp;
 int* data;
 
 // 返回 s1[0...i] s2[0...j] 的最长公共子序列
+// s1 和 s2 是对等关系
 int func(char* s1, char* s2, int i, int j) {
     if (i < 0 || j < 0) return 0;
     if (dp[i][j] != -1) return dp[i][j];
