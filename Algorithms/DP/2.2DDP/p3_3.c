@@ -7,6 +7,7 @@ int mmax(int a, int b) { return a > b ? a : b; }
 int** dp;
 int* data;
 
+// LPS 本质上就是 LCS(s, reverse(s))
 int longestPalindromeSubseq(char* s) {
     int len = strlen(s);
     // dp[i][j] 返回 s[i, j] 的最长回文子序列的长度
