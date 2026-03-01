@@ -18,7 +18,7 @@ int func(int n) {
 
 int fib(int n) {
     // 初始化为 -1
-    dp = (int*)malloc(sizeof(int) * 32);
+    dp = malloc(sizeof(*dp) * 32);
     memset(dp, -1, sizeof(int) * 32);
     return func(n);
 }
