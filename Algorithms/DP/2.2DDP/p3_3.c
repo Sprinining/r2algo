@@ -9,7 +9,7 @@ int* data;
 
 int longestPalindromeSubseq(char* s) {
     int len = strlen(s);
-    // dp[i][j] 返回 s[i, j] 的最长回文子序列
+    // dp[i][j] 返回 s[i, j] 的最长回文子序列的长度
     dp = malloc(sizeof(*dp) * len);
     data = calloc(len * len, sizeof(data));
     for (int i = 0; i < len; i++) dp[i] = data + i * len;
@@ -21,11 +21,12 @@ int longestPalindromeSubseq(char* s) {
     for (int k = 2; k < len; k++) {
         for (int j = k; j < len; j++) {
             int i = j - k;
-            int p1 = dp[i + 1][j - 1];
-            int p2 = dp[i + 1][j];
-            int p3 = dp[i][j - 1];
-            int p4 = s[i] == s[j] ? p1 + 2 : 0;
-            dp[i][j] = mmax(mmax(p1, p2), mmax(p3, p4));
+            if (s[i] == s[j]) {
+                dp[i][j] = dp[i + 1][j - 1] + 2;
+            } else {
+                // dp[i + 1][j - 1] 也被包含在两种情况之中了
+                dp[i][j] = mmax(dp[i + 1][j], dp[i][j - 1]);
+            }
         }
     }
 
