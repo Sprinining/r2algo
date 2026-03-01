@@ -1,33 +1,35 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int MOD = 1e9 + 7;
+int MOD = 1000000007;
 int m, n;
 int** dp;
 int* data;
 
-long long func(int n, int m) {
+int func(int n, int m) {
     if (dp[n][m] != -1) return dp[n][m];
     if (n == 0) return 1;
     if (m == 0) return 0;
     // 根节点用掉了一个
     // 剩下 n - 1 个节点，分给左右子树
-    long long res = 0;
+    int res = 0;
     for (int i = 0; i < n; i++) {
-        res = (res + (func(i, m - 1) * func(n - 1 - i, m - 1) % MOD)) % MOD;
+        res = ((long long)res + ((long long)func(i, m - 1) * func(n - 1 - i, m - 1) % MOD)) % MOD;
     }
-    dp[n][m] = (int)res;
+    dp[n][m] = res;
     return res;
 }
 
 int main() {
     scanf("%d %d", &n, &m);
-    dp = malloc(sizeof(*dp) * (n + 1));
-    data = malloc(sizeof(*data) * (n + 1) * (m + 1));
-    for (int i = 0; i <= n; i++) {
-        dp[i] = data + i * (m + 1);
-        memset(dp[i], -1, sizeof(int) * (m + 1));
+    int rows = n + 1;
+    int columns = m + 1;
+    dp = malloc(sizeof(*dp) * rows);
+    data = malloc(sizeof(*data) * rows * columns);
+    for (int i = 0; i < rows; i++) {
+        dp[i] = data + i * columns;
+        memset(dp[i], -1, sizeof(*dp[i]) * columns);
     }
-    printf("%d", (int)func(n, m));
+    printf("%d", func(n, m));
     return 0;
 }
