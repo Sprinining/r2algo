@@ -32,14 +32,12 @@ int longestIncreasingPath(int** matrix, int matrixSize, int* matrixColSize) {
     data = malloc(sizeof(*data) * rows * columns);
     for (int i = 0; i < rows; i++) {
         dp[i] = data + i * columns;
-        memset(dp[i], -1, sizeof(int) * columns);
+        memset(dp[i], -1, sizeof(*dp[i]) * columns);
     }
 
     int res = 0;
-    for (int i = 0; i < rows; i++) {
-        for (int j = 0; j < columns; j++) {
+    for (int i = 0; i < rows; i++)
+        for (int j = 0; j < columns; j++)
             res = mmax(res, func(matrix, i, j, -1));
-        }
-    }
     return res;
 }
