@@ -6,7 +6,7 @@ int mmax(int a, int b) { return a > b ? a : b; }
 int** dp;
 int* data;
 
-// 返回 s[left, right] 的最长回文子序列
+// 返回 s[left, right] 的最长回文子序列的长度
 int func(char* s, int left, int right) {
     if (dp[left][right] != -1) return dp[left][right];
     if (left > right) {
@@ -19,7 +19,7 @@ int func(char* s, int left, int right) {
         // 与其中一端的字符有关
         int p2 = func(s, left + 1, right);
         int p3 = func(s, left, right - 1);
-        // 两端相对
+        // 两端相等
         int p4 = s[left] == s[right] ? p1 + 2 : 0;
         dp[left][right] = mmax(mmax(p1, p2), mmax(p3, p4));
     }
