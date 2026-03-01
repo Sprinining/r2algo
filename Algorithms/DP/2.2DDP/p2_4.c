@@ -4,17 +4,16 @@
 int mmax(int a, int b) { return a > b ? a : b; }
 
 int longestCommonSubsequence(char* text1, char* text2) {
-    int rows = strlen(text1);
-    int columns = strlen(text2);
+    int rows = strlen(text1) + 1;
+    int columns = strlen(text2) + 1;
     // 多一行一列，避免特殊情况的讨论
-    int** dp = (int**)malloc(sizeof(int*) * (rows + 1));
+    int** dp = malloc(sizeof(*dp) * rows);
     // 第一行第一列都为 0
-    for (int i = 0; i <= rows; i++) {
-        dp[i] = (int*)calloc(columns + 1, sizeof(int));
-    }
+    int* data = calloc(rows * columns, sizeof(*data));
+    for (int i = 0; i < rows; i++) dp[i] = data + i * columns;
 
-    for (int i = 1; i <= rows; i++) {
-        for (int j = 1; j <= columns; j++) {
+    for (int i = 1; i < rows; i++) {
+        for (int j = 1; j < columns; j++) {
             if (text1[i - 1] == text2[j - 1]) {
                 dp[i][j] = dp[i - 1][j - 1] + 1;
             } else {
@@ -24,5 +23,5 @@ int longestCommonSubsequence(char* text1, char* text2) {
         }
     }
 
-    return dp[rows][columns];
+    return dp[rows - 1][columns - 1];
 }

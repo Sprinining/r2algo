@@ -4,7 +4,7 @@
 int minPathSum(int** grid, int gridSize, int* gridColSize) {
     int row = gridSize;
     int column = gridColSize[0];
-    int* dp = (int*)malloc(sizeof(int) * column);
+    int* dp = malloc(sizeof(*dp) * column);
     // 重复利用第一行
     dp[0] = grid[0][0];
     for (int j = 1; j < column; j++) {

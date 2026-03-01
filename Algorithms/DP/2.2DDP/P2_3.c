@@ -6,10 +6,9 @@ int mmax(int a, int b) { return a > b ? a : b; }
 int longestCommonSubsequence(char* text1, char* text2) {
     int rows = strlen(text1);
     int columns = strlen(text2);
-    int** dp = (int**)malloc(sizeof(int*) * rows);
-    for (int i = 0; i < rows; i++) {
-        dp[i] = (int*)malloc(sizeof(int) * columns);
-    }
+    int** dp = malloc(sizeof(*dp) * rows);
+    int* data = malloc(sizeof(*data) * rows * columns);
+    for (int i = 0; i < rows; i++) dp[i] = data + i * columns;
 
     // 第一行
     dp[0][0] = (text1[0] == text2[0]) ? 1 : 0;

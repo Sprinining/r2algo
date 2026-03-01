@@ -3,6 +3,7 @@
 int row;
 int column;
 int** dp;
+int* data;
 
 // 记忆化搜索
 // 到达 grid[i][j] 所需要的最小路径和
@@ -23,10 +24,11 @@ int func(int** grid, int i, int j) {
 int minPathSum(int** grid, int gridSize, int* gridColSize) {
     row = gridSize;
     column = gridColSize[0];
-    dp = (int**)malloc(sizeof(int*) * row);
+    dp = malloc(sizeof(*dp) * row);
+    data = malloc(sizeof(*data) * row * column);
     for (int i = 0; i < row; i++) {
-        dp[i] = (int*)malloc(sizeof(int) * column);
-        memset(dp[i], -1, sizeof(int) * column);
+        dp[i] = data + i * column;
+        memset(dp[i], -1, sizeof(*dp[i]) * column);
     }
 
     return func(grid, row - 1, column - 1);

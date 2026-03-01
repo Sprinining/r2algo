@@ -4,6 +4,7 @@
 int mmax(int a, int b) { return a > b ? a : b; }
 
 int** dp;
+int* data;
 
 // 返回 s1[0...i] s2[0...j] 的最长公共子序列
 int func(char* s1, char* s2, int i, int j) {
@@ -24,9 +25,10 @@ int func(char* s1, char* s2, int i, int j) {
 int longestCommonSubsequence(char* text1, char* text2) {
     int rows = strlen(text1);
     int columns = strlen(text2);
-    dp = (int**)malloc(sizeof(int*) * rows);
+    dp = malloc(sizeof(*dp) * rows);
+    data = malloc(sizeof(*data) * rows * columns);
     for (int i = 0; i < rows; i++) {
-        dp[i] = (int*)malloc(sizeof(int) * columns);
+        dp[i] = data + i * columns;
         memset(dp[i], -1, sizeof(int) * columns);
     }
     return func(text1, text2, rows - 1, columns - 1);
