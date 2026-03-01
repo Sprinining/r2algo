@@ -5,14 +5,14 @@
 int mmax(int a, int b) { return a > b ? a : b; }
 
 int** dp;
+int* data;
 
 int longestPalindromeSubseq(char* s) {
     int len = strlen(s);
     // dp[i][j] 返回 s[i, j] 的最长回文子序列
-    dp = (int**)malloc(sizeof(int*) * len);
-    for (int i = 0; i < len; i++) {
-        dp[i] = (int*)calloc(len, sizeof(int));
-    }
+    dp = malloc(sizeof(*dp) * len);
+    data = calloc(len * len, sizeof(data));
+    for (int i = 0; i < len; i++) dp[i] = data + i * len;
 
     // 上三角矩阵
     for (int i = 0; i < len; i++) dp[i][i] = 1;

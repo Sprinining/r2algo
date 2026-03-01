@@ -5,6 +5,7 @@ int directions[4][2] = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
 
 int mmax(int a, int b) { return a > b ? a : b; }
 int** dp;
+int* data;
 
 // 从 matrix[i][j] 出发的最长递增路径
 int func(int** matrix, int i, int j, int before) {
@@ -27,9 +28,10 @@ int func(int** matrix, int i, int j, int before) {
 int longestIncreasingPath(int** matrix, int matrixSize, int* matrixColSize) {
     rows = matrixSize;
     columns = matrixColSize[0];
-    dp = (int**)malloc(sizeof(int*) * rows);
+    dp = malloc(sizeof(*dp) * rows);
+    data = malloc(sizeof(*data) * rows * columns);
     for (int i = 0; i < rows; i++) {
-        dp[i] = (int*)malloc(sizeof(int) * columns);
+        dp[i] = data + i * columns;
         memset(dp[i], -1, sizeof(int) * columns);
     }
 

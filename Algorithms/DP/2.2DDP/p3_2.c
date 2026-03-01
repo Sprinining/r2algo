@@ -4,6 +4,7 @@
 int mmax(int a, int b) { return a > b ? a : b; }
 
 int** dp;
+int* data;
 
 // 返回 s[left, right] 的最长回文子序列
 int func(char* s, int left, int right) {
@@ -27,9 +28,10 @@ int func(char* s, int left, int right) {
 
 int longestPalindromeSubseq(char* s) {
     int len = strlen(s);
-    dp = (int**)malloc(sizeof(int*) * len);
+    dp = malloc(sizeof(*dp) * len);
+    data = malloc(sizeof(*data) * len * len);
     for (int i = 0; i < len; i++) {
-        dp[i] = (int*)malloc(sizeof(int) * len);
+        dp[i] = data + i * len;
         memset(dp[i], -1, sizeof(int) * len);
     }
     return func(s, 0, len - 1);

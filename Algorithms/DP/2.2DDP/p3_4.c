@@ -3,7 +3,7 @@ int max(int a, int b) { return a > b ? a : b; }
 // 空间压缩
 int longestPalindromeSubseq(char* s) {
     int len = strlen(s);
-    int* dp = (int*)malloc(sizeof(int) * len);
+    int* dp = malloc(sizeof(*dp) * len);
     // 左下角元素
     int leftDown;
     for (int left = len - 1; left >= 0; left--) {

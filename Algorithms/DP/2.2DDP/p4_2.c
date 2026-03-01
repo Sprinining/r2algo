@@ -4,6 +4,7 @@
 int MOD = 1e9 + 7;
 int m, n;
 int** dp;
+int* data;
 
 long long func(int n, int m) {
     if (dp[n][m] != -1) return dp[n][m];
@@ -21,9 +22,10 @@ long long func(int n, int m) {
 
 int main() {
     scanf("%d %d", &n, &m);
-    dp = (int**)malloc(sizeof(int*) * (n + 1));
+    dp = malloc(sizeof(*dp) * (n + 1));
+    data = malloc(sizeof(*data) * (n + 1) * (m + 1));
     for (int i = 0; i <= n; i++) {
-        dp[i] = (int*)malloc(sizeof(int) * (m + 1));
+        dp[i] = data + i * (m + 1);
         memset(dp[i], -1, sizeof(int) * (m + 1));
     }
     printf("%d", (int)func(n, m));

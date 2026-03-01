@@ -6,10 +6,8 @@ int m1n(int a, int b) { return a > b ? b : a; }
 
 // 插入、删除、替换的代价分别为 a、b、c
 int editDistance(char* s, char* t, int a, int b, int c) {
-    int len_s = strlen(s);
-    int len_t = strlen(t);
-    int rows = len_s + 1;
-    int columns = len_t + 1;
+    int rows = strlen(s) + 1;
+    int columns = strlen(t) + 1;
 
     // dp[i][j] 表示 s 前 i 个字符变换到 t 前 j 个字符的最小编辑距离
     int** dp = malloc(sizeof(*dp) * rows);
@@ -37,7 +35,7 @@ int editDistance(char* s, char* t, int a, int b, int c) {
             dp[i][j] = m1n(m1n(p1, p2), m1n(p3, p4));
         }
     }
-    return dp[len_s][len_t];
+    return dp[rows - 1][columns - 1];
 }
 
 int minDistance(char* word1, char* word2) { return editDistance(word1, word2, 1, 1, 1); }

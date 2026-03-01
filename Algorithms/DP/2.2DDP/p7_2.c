@@ -5,10 +5,8 @@
 int m1n(int a, int b) { return a > b ? b : a; }
 
 int editDistance(char* s, char* t, int a, int b, int c) {
-    int len_s = strlen(s);
-    int len_t = strlen(t);
-    int rows = len_s + 1;
-    int columns = len_t + 1;
+    int rows = strlen(s) + 1;
+    int columns = strlen(t) + 1;
 
     int* dp = calloc(columns, sizeof(dp));
     // 第一行
@@ -31,7 +29,7 @@ int editDistance(char* s, char* t, int a, int b, int c) {
             top_left = backup;
         }
     }
-    return dp[len_t];
+    return dp[columns - 1];
 }
 
 int minDistance(char* word1, char* word2) { return editDistance(word1, word2, 1, 1, 1); }

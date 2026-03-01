@@ -5,13 +5,10 @@ int MOD = 1000000007;
 
 // 空间优化
 int numDistinct(char* s, char* t) {
-    int len_s = strlen(s);
-    int len_t = strlen(t);
-    int rows = len_s + 1;
-    int columns = len_t + 1;
+    int rows = strlen(s) + 1;
+    int columns = strlen(t) + 1;
 
-    int* dp = (int*)malloc(sizeof(int) * columns);
-    memset(dp, 0, sizeof(int) * columns);
+    int* dp = calloc(columns, sizeof(*dp));
     dp[0] = 1;
 
     // 当前位置只依赖于上方和左上方
@@ -24,5 +21,5 @@ int numDistinct(char* s, char* t) {
         }
     }
 
-    return dp[len_t];
+    return dp[columns - 1];
 }

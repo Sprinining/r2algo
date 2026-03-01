@@ -4,18 +4,14 @@
 int MOD = 1000000007;
 
 int numDistinct(char* s, char* t) {
-    int len_s = strlen(s);
-    int len_t = strlen(t);
-    int rows = len_s + 1;
-    int columns = len_t + 1;
+    int rows = strlen(s) + 1;
+    int columns = strlen(t) + 1;
 
     // dp[i][j] 表示在 s 的前 i 个字符里，能组成 t 的前 j 个字符的子序列个数
     // 问题关键是 s[i] 到底用不用
-    int** dp = (int**)malloc(sizeof(int*) * rows);
-    for (int i = 0; i < rows; i++) {
-        dp[i] = (int*)malloc(sizeof(int) * columns);
-        memset(dp[i], 0, sizeof(int) * columns);
-    }
+    int** dp = malloc(sizeof(*dp) * rows);
+    int* data = calloc(rows * columns, sizeof(*data));
+    for (int i = 0; i < rows; i++) dp[i] = data + i * columns;
 
     // 第一列全 1，表示 t 为空串时会出现在 s 的子序列中一次
     for (int i = 0; i < rows; i++) dp[i][0] = 1;
@@ -35,7 +31,7 @@ int numDistinct(char* s, char* t) {
         }
     }
 
-    return dp[len_s][len_t];
+    return dp[rows - 1][columns - 1];
 }
 /*
     为什么不是 dp[i][j-1]？

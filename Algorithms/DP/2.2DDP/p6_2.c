@@ -5,17 +5,14 @@ int MOD = 1000000007;
 
 // 空间优化
 int numDistinct(char* s, char* t) {
-    int len_s = strlen(s);
-    int len_t = strlen(t);
-    int rows = len_s + 1;
-    int columns = len_t + 1;
+    int rows = strlen(s) + 1;
+    int columns = strlen(t) + 1;
 
     // dp[i][j] 表示在 s 的前 i 个字符里，能组成 t 的前 j 个字符的子序列个数
     // 问题关键是 s[i] 到底用不用
-    int* dp = (int*)malloc(sizeof(int) * columns);
+    int* dp = calloc(columns, sizeof(*dp));
     // 第一列全 1，表示 t 为空串时会出现在 s 的子序列中一次
     // 第一行除了第一个，其余为 0，表示空串 t 的子序列中不可能出现非空串 t
-    memset(dp, 0, sizeof(int) * columns);
     dp[0] = 1;
 
     int before;
@@ -36,7 +33,7 @@ int numDistinct(char* s, char* t) {
         }
     }
 
-    return dp[len_t];
+    return dp[columns - 1];
 }
 /*
     为什么不是 dp[i][j-1]？
