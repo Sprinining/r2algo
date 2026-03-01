@@ -26,7 +26,7 @@ int func(char* s, int n) {
 int numDecodings(char* s) {
     if (s[0] == '0') return 0;
     int len = strlen(s);
-    dp = (int*)malloc(sizeof(int) * (len + 1));
+    dp = malloc(sizeof(*dp) * (len + 1));
     memset(dp, -1, sizeof(int) * (len + 1));
     return func(s, len);
 }

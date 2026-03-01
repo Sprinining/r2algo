@@ -8,7 +8,7 @@ int longestValidParentheses(char* s) {
 
     int max = 0;
     // dp[i] 返回字符串长度为 i 且必须以末尾元素结尾的最长有效括号子串的长度
-    int* dp = (int*)malloc(sizeof(int) * (len + 1));
+    int* dp = malloc(sizeof(*dp) * (len + 1));
     dp[0] = 0;
     dp[1] = 0;
     for (int i = 2; i <= len; i++) {

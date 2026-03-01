@@ -10,7 +10,7 @@ int numDecodings(char* s) {
     if (s[0] == '0') return 0;
 
     int len = strlen(s);
-    dp = (long long*)malloc(sizeof(long long) * (len + 1));
+    dp = malloc(sizeof(*dp) * (len + 1));
     dp[0] = 1;
     dp[1] = (s[0] == '*') ? 9 : 1;
 

@@ -12,7 +12,7 @@ int findSubstringInWraproundString(char* s) {
     // 中出现的不同非空子串个数，也就是把必须以字符 ch 结尾的合法长度映射到
     // dp[ch-'a']，最后汇总不会有重复，因为
     // 26 个字符每个只统计了一个最大的合法长度
-    int* dp = (int*)calloc(26, sizeof(int));
+    int* dp = calloc(26, sizeof(*dp));
     dp[s[0] - 'a'] = 1;
     int count = 1;
     for (int i = 1; i < len; i++) {

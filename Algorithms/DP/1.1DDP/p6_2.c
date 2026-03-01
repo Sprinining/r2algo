@@ -7,7 +7,7 @@ int min3(int a, int b, int c) { return m1n(m1n(a, b), c); }
 
 int nthUglyNumber(int n) {
     // dp[i] 就是第 i 个丑数
-    int* dp = (int*)malloc(sizeof(int) * (n + 1));
+    int* dp = malloc(sizeof(*dp) * (n + 1));
     dp[1] = 1;
     int i = 2, i2 = 1, i3 = 1, i5 = 1;
     while (i <= n) {

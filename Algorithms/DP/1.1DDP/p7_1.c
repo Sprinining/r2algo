@@ -59,7 +59,7 @@ int func(char* s, int n) {
 int longestValidParentheses(char* s) {
     int len = strlen(s);
     if (len == 0) return 0;
-    dp = (int*)malloc(sizeof(int) * (len + 1));
+    dp = malloc(sizeof(*dp) * (len + 1));
     memset(dp, -1, sizeof(int) * (len + 1));
     return func(s, len);
 }

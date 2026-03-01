@@ -12,7 +12,7 @@ int numDecodings(char* s) {
     if (len == 1) return 1;
 
     // 两个及以上
-    int* dp = (int*)malloc(sizeof(int) * (len + 1));
+    int* dp = malloc(sizeof(*dp) * (len + 1));
     // 避免讨论长度为 2 的字符串的情况
     dp[0] = 1;
     dp[1] = 1;
