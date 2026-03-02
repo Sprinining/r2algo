@@ -19,6 +19,7 @@ int func(int** matrix, int i, int j, int before) {
     return res + 1;
 }
 
+// O(4^(mn))
 int longestIncreasingPath(int** matrix, int matrixSize, int* matrixColSize) {
     rows = matrixSize;
     columns = matrixColSize[0];
