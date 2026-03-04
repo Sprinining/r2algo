@@ -5,43 +5,40 @@
 // 最大物品数
 #define MAXN 1000
 // 最大的原始组编号
-#define MAXCNT 10000
+#define MAXCNT 10001
+
+int mmax(int a, int b) { return a > b ? a : b; }
 
 typedef struct {
     int item_cnt;
     int item[MAXN][2];
-} group;
+} Group;
 
-int mmax(int a, int b) { return a > b ? a : b; }
+Group gp[MAXN];
+int gp_cnt;
+
+// 原始组号到新组号的映射
+int map[MAXCNT];
 
 int main() {
     int m, n;
-    scanf("%d %d", &m, &n);
+    scanf("%d%d", &m, &n);
 
-    // 原始组号到新组号的映射
-    int map[MAXCNT + 1];
     memset(map, -1, sizeof(map));
-
-    group gp[MAXN];
-    int gp_cnt = 0;
+    gp_cnt = 0;
 
     for (int i = 0, a, b, c; i < n; ++i) {
         scanf("%d%d%d", &a, &b, &c);
         // 组号离散化
         if (map[c] == -1) {
-            // 原始组号第一次出现，映射到新的组号
-            gp[gp_cnt].item_cnt = 1;
-            gp[gp_cnt].item[0][0] = a;
-            gp[gp_cnt].item[0][1] = b;
             map[c] = gp_cnt++;
-        } else {
-            // 加到已有的组中
-            int gp_idx = map[c];
-            int item_idx = gp[gp_idx].item_cnt;
-            gp[gp_idx].item[item_idx][0] = a;
-            gp[gp_idx].item[item_idx][1] = b;
-            ++(gp[gp_idx].item_cnt);
+            gp[map[c]].item_cnt = 0;
         }
+        // 新组号
+        int gp_idx = map[c];
+        gp[gp_idx].item[gp[gp_idx].item_cnt][0] = a;
+        gp[gp_idx].item[gp[gp_idx].item_cnt][1] = b;
+        ++(gp[gp_idx].item_cnt);
     }
 
     int rows = gp_cnt + 1;

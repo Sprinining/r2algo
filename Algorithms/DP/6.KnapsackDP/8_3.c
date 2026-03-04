@@ -3,9 +3,9 @@
 #include <string.h>
 
 // 最大物品数
-#define MAXN 1000
+#define MAXN 1001
 // 最大的原始组编号
-#define MAXCNT 10000
+#define MAXCNT 10001
 
 int mmax(int a, int b) { return a > b ? a : b; }
 
@@ -16,9 +16,9 @@ typedef struct {
     int next;
 } Edge;
 
-Edge edges[MAXN + 1];
+Edge edges[MAXN];
 // 顶点序号从 0 开始
-int heads[MAXCNT + 1];
+int heads[MAXCNT];
 // 边的序号从 1 开始，0 表示没有边
 int edge_cnt;
 
@@ -38,29 +38,21 @@ void addEdge(int u, int cost, int weight) {
     heads[u] = edge_cnt;
 }
 
+// 原始组号到新组号的映射，也就是原来顶点序号到新的顶点序号的映射
+int map[MAXCNT + 1];
+
 int main() {
     init();
-
     int m, n;
     scanf("%d %d", &m, &n);
-
-    // 原始组号到新组号的映射，也就是原来顶点序号到新的顶点序号的映射
-    int map[MAXCNT + 1];
     memset(map, -1, sizeof(map));
     int node_cnt = 0;
 
     for (int i = 0, a, b, c; i < n; ++i) {
         scanf("%d%d%d", &a, &b, &c);
         // 组号离散化，变成从 0 开始的连续编号
-        if (map[c] == -1) {
-            // 原始组号第一次出现，映射到新的组号
-            addEdge(node_cnt, a, b);
-            map[c] = node_cnt++;
-        } else {
-            // 加到已有的组中
-            int node_idx = map[c];
-            addEdge(node_idx, a, b);
-        }
+        if (map[c] == -1) map[c] = node_cnt++;
+        addEdge(map[c], a, b);
     }
 
     int rows = node_cnt + 1;
