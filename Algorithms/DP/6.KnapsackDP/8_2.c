@@ -10,8 +10,13 @@
 int mmax(int a, int b) { return a > b ? a : b; }
 
 typedef struct {
+    int cost;
+    int weight;
+} Item;
+
+typedef struct {
     int item_cnt;
-    int item[MAXN][2];
+    Item items[MAXN];
 } Group;
 
 Group gp[MAXN];
@@ -36,8 +41,8 @@ int main() {
         }
         // 新组号
         int gp_idx = map[c];
-        gp[gp_idx].item[gp[gp_idx].item_cnt][0] = a;
-        gp[gp_idx].item[gp[gp_idx].item_cnt][1] = b;
+        gp[gp_idx].items[gp[gp_idx].item_cnt].cost = a;
+        gp[gp_idx].items[gp[gp_idx].item_cnt].weight = b;
         ++(gp[gp_idx].item_cnt);
     }
 
@@ -51,8 +56,8 @@ int main() {
             int p = dp[j];
             // 要选也只能选一个
             for (int k = 0; k < gp[i - 1].item_cnt; ++k) {
-                int cost = gp[i - 1].item[k][0];
-                int val = gp[i - 1].item[k][1];
+                int cost = gp[i - 1].items[k].cost;
+                int val = gp[i - 1].items[k].weight;
                 if (cost <= j) p = mmax(p, dp[j - cost] + val);
             }
             dp[j] = p;
