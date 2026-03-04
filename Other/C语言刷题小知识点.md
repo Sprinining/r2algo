@@ -181,3 +181,22 @@ int main() {
 | 性能        | cache 不友好                 | cache 友好，访问快         |
 | 灵活性      | 每行长度可以不同             | 每行长度必须固定           |
 | 初始化      | 需要循环 memset              | calloc 一次搞定            |
+
+#### 列数固定
+
+```c
+// rows * 2
+int (*group)[2] = malloc(sizeof(*group) * rows);
+```
+
+### 输入输出
+
+#### 格式化输入输出 long long
+
+`int` 与 `long long` 的关键区别在于**格式化符号**：
+
+- scanf：`%d` → int, `%lld` → long long
+- printf：`%d` → int, `%lld` → long long
+
+不加 `ll` 就会截断或未定义行为。
+
