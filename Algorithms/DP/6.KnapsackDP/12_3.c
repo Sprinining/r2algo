@@ -7,7 +7,6 @@ bool isMatch(char* s, char* p) {
     int cols = strlen(p) + 1;
     // dp[i][j] = s[i:] 与 p[j:] 是否完全匹配
     bool** dp = malloc(sizeof(*dp) * rows);
-    // 初始化为 0，表示未处理过；1 表示 ture，2 表示 false
     bool* data = calloc(rows * cols, sizeof(*data));
     for (int i = 0; i < rows; ++i) dp[i] = data + i * cols;
 
