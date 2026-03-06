@@ -21,8 +21,7 @@ int main() {
     for (int i = 1; i < rows; ++i) {
         int cost = choice[i - 1][0];
         int val = choice[i - 1][1];
-        // 从 cost 开始就行
-        for (int j = cost; j < cols; ++j) {
+        for (int j = 0; j < cols; ++j) {
             // 当前物品一个都不要
             dp[i][j] = dp[i - 1][j];
             // 当前物品再要一个
@@ -33,3 +32,9 @@ int main() {
 
     printf("%lld", dp[rows - 1][cols - 1]);
 }
+/*
+    二维完全背包，到底什么时候可以从 cost 开始遍历？
+    只有 1 种情况 可以从 cost 开始：
+        当前行 cost 之前都已经满足 dp[i][j] = dp[i - 1][j]，也就是说已经被初始化好了
+    最好还是从 0 开始
+*/

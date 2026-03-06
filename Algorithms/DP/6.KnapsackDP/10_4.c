@@ -19,7 +19,7 @@ int main() {
         int cost = choice[i - 1][0];
         int val = choice[i - 1][1];
         // 正序遍历
-        for (int j = cost; j < cols; ++j) {
+        for (int j = 0; j < cols; ++j) {
             if (cost <= j) dp[j] = mmax(dp[j], dp[j - cost] + val);
         }
     }
