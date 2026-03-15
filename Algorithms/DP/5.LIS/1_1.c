@@ -1,23 +1,17 @@
-#include <vector>
+int mmax(int a, int b) { return a > b ? a : b; }
 
-using namespace std;
+int lengthOfLIS(int* nums, int numsSize) {
+    // dp[i] = 必须以 nums[i] 结尾的 LIS
+    int* dp = malloc(sizeof(*dp) * numsSize);
+    int res = 1;
 
-class Solution {
-public:
-    // 时间复杂度 O(n^2)
-    int lengthOfLIS(vector<int> &nums) {
-        int n = nums.size();
-        // dp[i]: 以 nums[i] 结尾的最长递增子序列
-        vector<int> dp(n);
-        int res = 0;
-        for (int i = 0; i < n; ++i) {
-            dp[i] = 1;
-            for (int j = 0; j < i; ++j) {
-                if (nums[j] < nums[i])
-                    dp[i] = max(dp[i], dp[j] + 1);
-            }
-            res = max(res, dp[i]);
+    for (int i = 0; i < numsSize; ++i) {
+        dp[i] = 1;
+        for (int j = i - 1; j >= 0; --j) {
+            if (nums[i] > nums[j]) dp[i] = mmax(dp[i], dp[j] + 1);
         }
-        return res;
+        res = mmax(res, dp[i]);
     }
-};
+
+    return res;
+}
