@@ -200,3 +200,65 @@ int (*group)[2] = malloc(sizeof(*group) * rows);
 
 不加 `ll` 就会截断或未定义行为。
 
+### 排序
+
+`qsort` 是 C 标准库（`stdlib.h`）提供的一个**通用排序函数**。
+
+```c
+void qsort(void *base, size_t nmemb, size_t size,
+           int (*compar)(const void *, const void *));
+```
+
+数组起始地址 base:
+
+```c
+int arr[5];
+qsort(arr, ...);
+```
+
+元素个数 nmemb:
+
+```c
+sizeof(arr) / sizeof(arr[0])
+```
+
+每个元素的大小 size:
+
+```c
+sizeof(int)
+```
+
+比较函数 compar:
+
+```c
+int cmp(const void *a, const void *b);
+```
+
+返回值规则：
+
+| 返回值 | 含义   |
+| ------ | ------ |
+| < 0    | a 在前 |
+| = 0    | 相等   |
+| > 0    | b 在前 |
+
+#### 错误写法
+
+```c
+return *(int*)a - *(int*)b;
+```
+
+如果数据很大可能溢出
+
+#### 正确写法
+
+```c
+int cmp(const void *a, const void *b) {
+    int x = *(int*)a;
+    int y = *(int*)b;
+    if (x < y) return -1;
+    if (x > y) return 1;
+    return 0;
+}
+```
+
