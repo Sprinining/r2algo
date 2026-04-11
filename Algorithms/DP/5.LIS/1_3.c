@@ -2,7 +2,7 @@
 #include <stdlib.h>
 
 // 最长不下降子序列
-// 大于等于 target 的左边界
+// 大于 target 的左边界
 int binarySearch(int* arr, int len, int target) {
     int left = 0;
     int right = len - 1;
