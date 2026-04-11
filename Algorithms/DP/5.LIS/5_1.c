@@ -1,17 +1,19 @@
-#include <vector>
-#include <algorithm>
-#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
 
-using namespace std;
+// 取最大值
+#define MAX(a, b) ((a) > (b) ? (a) : (b))
 
 int n, k;
 
-// 求最长不上升子序列长度的二分
-// ends[0, len - 1] 为降序，找小于 target 的最左位置
-int binarySearch1(vector<int> &ends, int len, int target) {
-    int left = 0;
-    int right = len - 1;
-    int mid;
+/*
+binarySearch1（右侧用）
+在降序数组 ends 中找第一个 < target 的位置
+最长不上升子序列（从右往左构造）
+*/
+int binarySearch1(int* ends, int len, int target) {
+    int left = 0, right = len - 1, mid;
+
     while (left <= right) {
         mid = left + ((right - left) >> 1);
         if (ends[mid] < target) {
@@ -23,12 +25,14 @@ int binarySearch1(vector<int> &ends, int len, int target) {
     return left;
 }
 
-// 求最长不下降子序列长度的二分
-// ends[0, len-1] 为升序，找大于 target 的最左位置
-int binarySearch2(vector<int> &ends, int len, int target) {
-    int left = 0;
-    int right = len - 1;
-    int mid;
+/*
+binarySearch2（左侧用）
+在升序数组ends 中找第一个 > target 的位置
+最长不下降子序列（LIS变体）
+*/
+int binarySearch2(int* ends, int len, int target) {
+    int left = 0, right = len - 1, mid;
+
     while (left <= right) {
         mid = left + ((right - left) >> 1);
         if (ends[mid] > target) {
@@ -40,59 +44,72 @@ int binarySearch2(vector<int> &ends, int len, int target) {
     return left;
 }
 
-// 生成辅助数组 rightMaxLen
-// rightMaxLen[i]: 以 nums[i] 开头的最长不下降子序列长度
-// 等价于从右往左遍历，以 nums[i] 做结尾的情况下的最长不上升子序列
-vector<int> getRightMaxLen(vector<int> &ends, vector<int> &nums) {
-    vector<int> rightMaxLen(nums.size());
+/*
+rightMaxLen[i] 表示从 i 开始，往右的最长“不下降子序列”长度
+转换为：从右往左的“最长不上升子序列”。因为 LIS 通常是“结尾”，但这里要“开头”
+*/
+int* getRightMaxLen(int* nums, int* ends) {
+    int* rightMaxLen = malloc(sizeof(*rightMaxLen) * n);
+    // 当前 ends 有效长度
     int len = 0;
-    for (int i = n - 1, pos; i >= 0; i--) {
-        pos = binarySearch1(ends, len, nums[i]);
+
+    // 从右往左扫
+    for (int i = n - 1; i >= 0; --i) {
+        // 找插入位置
+        int pos = binarySearch1(ends, len, nums[i]);
         if (pos == len) {
-            // 扩充 endsArr
+            // 扩展最长长度
             ends[len++] = nums[i];
-            // 记录长度
             rightMaxLen[i] = len;
         } else {
+            // 替换，保持“更优尾部”
             ends[pos] = nums[i];
             rightMaxLen[i] = pos + 1;
         }
     }
+
     return rightMaxLen;
 }
 
+/*
+枚举修改区间的位置
+结构：[左边] + [k个修改] + [右边]
+左边：最长不下降子序列（结尾 < nums[j]）
+中间：k（直接改）
+右边：必须从 nums[j] 开始的最长不下降子序列
+*/
 int main() {
-    cin >> n >> k;
-    vector<int> nums;
-    nums.resize(n);
-    for (int i = 0; i < n; ++i)
-        cin >> nums[i];
+    scanf("%d %d", &n, &k);
 
-    // 生成辅助数组
-    vector<int> ends(n);
-    vector<int> rightMaxLen = getRightMaxLen(ends, nums);
+    int* nums = malloc(sizeof(*nums) * n);
+    for (int i = 0; i < n; ++i) scanf("%d", &nums[i]);
+    int* ends = malloc(sizeof(*ends) * n);
+    int* rightMaxLen = getRightMaxLen(nums, ends);
 
     int len = 0;
     int res = 0;
-    for (int i = 0, j = k, pos; j < n; i++, j++) {
-        // 根据当前划分点查，划分点左侧连续 k 个位置是要改成 nums[j] 的
-        pos = binarySearch2(ends, len, nums[j]);
+    // 枚举修改区间：左边界 i，右边界 j = i + k
+    for (int i = 0, j = k; j < n; i++, j++) {
+        // 左边：找一个最长 LIS，使其结尾 <= nums[j]
+        int pos = binarySearch2(ends, len, nums[j]);
 
-        // res 由三部分组成
-        // 左侧：划分点左侧连续 k 个位置再往前的区域中，长度为 pos 的不下降子序列（最大值小于 nums[j]）
-        // 中间：划分点左侧连续 k 个位置
-        // 右侧：必须以 nums[j] 开始的不下降子序列的长度
-        res = max(res, pos + k + rightMaxLen[j]);
+        // 三段拼接：左边 LIS + k + 右边 LIS
+        res = MAX(res, pos + k + rightMaxLen[j]);
 
-        // 要插入的是 nums[i]，所以要再查找下插入位置
+        // 把 nums[i] 加入左侧 LIS
         pos = binarySearch2(ends, len, nums[i]);
+
         if (pos == len) {
             ends[len++] = nums[i];
         } else {
             ends[pos] = nums[i];
         }
     }
-    // 特例：最后 k 个元素都改成左侧不下降子序列的最后一个值
-    res = max(res, len + k);
-    cout << res;
+
+    // 特殊情况，最后 k 个全改：相当于 左边 LIS + k
+    res = MAX(res, len + k);
+
+    printf("%d\n", res);
+
+    return 0;
 }
