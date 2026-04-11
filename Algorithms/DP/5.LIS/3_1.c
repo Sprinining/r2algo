@@ -1,57 +1,40 @@
-#include <algorithm>
-#include <iostream>
-#include <vector>
+#include <stdlib.h>
 
-using namespace std;
-
-class Solution{public :
-                   // 大于 target 的左边界
-                   int binarySearch(vector<int> & ends, int len, int target){int left = 0;
-int right = len - 1;
-int mid;
-while (left <= right) {
-    mid = left + ((right - left) >> 1);
-    if (ends[mid] > target) {
-        right = mid - 1;
-    } else {
-        left = mid + 1;
-    }
-}
-return left;
-}
-
-// 时间复杂度 O(n * logn)
-int lengthOfLIS(vector<int>& nums) {
-    int n = nums.size();
-    // ends[i] 表示所有长度为 i + 1 的不下降子序列的最小结尾
-    // [0, len-1] 是有效区，有效区内的数字非递减
-    vector<int> ends(n);
-    // len 表示 ends 数组目前的有效区长度
-    int len = 0;
-    for (int i = 0, pos; i < n; ++i) {
-        pos = binarySearch(ends, len, nums[i]);
-        if (pos == len) {
-            // 找不到就扩充 ends
-            ends[len++] = nums[i];
+int binarySearch(int* arr, int len, int target) {
+    int left = 0;
+    int right = len - 1;
+    int mid;
+    while (left <= right) {
+        mid = left + (right - left) / 2;
+        if (arr[mid] > target) {
+            right = mid - 1;
         } else {
-            // 找到了就更新成更小的 nums[i]
-            ends[pos] = nums[i];
+            left = mid + 1;
         }
     }
-    return len;
+    return left;
 }
 
-int kIncreasing(vector<int>& arr, int k) {
-    int n = arr.size();
-    int res = 0;
-    // 分为 k 组
-    for (int i = 0; i < k; ++i) {
-        vector<int> temp;
-        for (int j = i; j < n; j += k) temp.emplace_back(arr[j]);
-        // 累加这一组需要修改的数字
-        res += temp.size() - lengthOfLIS(temp);
+// 最长不下降子序列
+int kIncreasing(int* arr, int arrSize, int k) {
+    int max_len = arrSize / k + 1;
+    int* ends = malloc(sizeof(*ends) * max_len);
+    int len;
+
+    int sum = 0;
+    // 分组
+    for (int t = 0; t < k; ++t) {
+        // 每组的最长不下降子序列长度
+        len = 0;
+        for (int i = t; i < arrSize; i += k) {
+            int pos = binarySearch(ends, len, arr[i]);
+            if (pos == len) {
+                ends[len++] = arr[i];
+            } else {
+                ends[pos] = arr[i];
+            }
+        }
+        sum += len;
     }
-    return res;
+    return arrSize - sum;
 }
-}
-;
