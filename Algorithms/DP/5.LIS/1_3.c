@@ -23,6 +23,7 @@ int lengthOfLIS(int* nums, int numsSize) {
     // ends[i] 表示所有长度为 i+1 的递增子序列的最小结尾
     int* ends = malloc(sizeof(*ends) * numsSize);
     // [0, len-1] 是有效区，有效区内的数字一定严格升序
+    // len = 当前已经找到的最大长度
     int len = 0;
     for (int i = 0; i < numsSize; ++i) {
         int pos = binarySearch(ends, len, nums[i]);
@@ -33,7 +34,10 @@ int lengthOfLIS(int* nums, int numsSize) {
             // 找到了就更新成更小的 nums[i]
             // 同样长度的递增子序列，结尾越小越好，后面更容易接后续元素
             ends[pos] = nums[i];
+            // 如果想要以 nums[i] 结尾的 LIS 长度
+            // 必须记录 dp[i] = pos + 1;
         }
     }
+    // 最终 len = LIS 的长度
     return len;
 }
