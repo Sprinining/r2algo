@@ -1,16 +1,17 @@
-int max(int a, int b) { return a > b ? a : b; }
+#include <stdlib.h>
 
+#define MMAX(a, b) ((a) > (b) ? (a) : (b))
+
+// 不能选相邻元素的最大累加和问题
 int rob(int* nums, int numsSize) {
     if (numsSize == 1) return nums[0];
-    // dp[i]表示偷i间房子的最大金额
-    int dp[numsSize];
+    if (numsSize == 2) return MMAX(nums[0], nums[1]);
+    int* dp = malloc(sizeof(*dp) * numsSize);
     dp[0] = nums[0];
-    dp[1] = max(nums[0], nums[1]);
-
+    dp[1] = MMAX(nums[0], nums[1]);
     for (int i = 2; i < numsSize; ++i) {
-        // 当前位置偷，dp[i] = dp[i-2] + nums[i]
-        // 当前位置不偷，dp[i] = dp[i-1]
-        dp[i] = max(dp[i - 1], dp[i - 2] + nums[i]);
+        // 当前位置偷不偷两种情况
+        dp[i] = MMAX(dp[i - 2] + nums[i], dp[i - 1]);
     }
 
     return dp[numsSize - 1];
