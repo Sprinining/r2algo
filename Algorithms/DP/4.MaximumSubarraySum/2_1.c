@@ -12,6 +12,8 @@ int rob(int* nums, int numsSize) {
     for (int i = 2; i < numsSize; ++i) {
         // 当前位置偷不偷两种情况
         dp[i] = MMAX(dp[i - 2] + nums[i], dp[i - 1]);
+        // nums 元素全是正数，dp[i] 全是正收益
+        // 如果允许 nums 有负数，那么当选择偷当前位置时，dp[i - 2] 为负数时就没必要加上去
     }
 
     return dp[numsSize - 1];
