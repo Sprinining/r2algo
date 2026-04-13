@@ -262,3 +262,12 @@ int cmp(const void *a, const void *b) {
 }
 ```
 
+### 数组传参会退化为指针
+
+```c
+// sums 有 5 列
+printf("%d %d %d", sizeof(int), sizeof(sums), sizeof(*sums) * cols);
+// 4 8 20
+```
+
+函数参数中的数组，本质是指针，sizeof 拿到的是地址大小（8 字节），不是数组长度。为什么指针是 8 字节？因为我都电脑是 64 位系统，地址长度 = 64 位 = 8 字节。
