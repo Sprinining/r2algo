@@ -271,3 +271,58 @@ printf("%d %d %d", sizeof(int), sizeof(sums), sizeof(*sums) * cols);
 ```
 
 函数参数中的数组，本质是指针，sizeof 拿到的是地址大小（8 字节），不是数组长度。为什么指针是 8 字节？因为我都电脑是 64 位系统，地址长度 = 64 位 = 8 字节。
+
+### 生成随机数组
+
+```c
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+int main() {
+    int n = 10;
+    int arr[10];
+
+    // 1. 初始化随机种子（只调用一次）
+    srand(time(NULL));
+
+    // 2. 生成随机数
+    for (int i = 0; i < n; i++) {
+        arr[i] = rand();  // 0 ~ RAND_MAX
+    }
+
+    // 打印
+    for (int i = 0; i < n; i++) {
+        printf("%d ", arr[i]);
+    }
+
+    return 0;
+}
+```
+
+#### 封装成函数
+
+```c
+#include <stdlib.h>  // rand, srand
+#include <time.h>    // time
+#include <stdio.h>
+
+void genRandomArray(int* arr, int n, int L, int R) {
+    for (int i = 0; i < n; i++) {
+        arr[i] = rand() % (R - L + 1) + L;
+    }
+}
+
+int main() {
+    int arr[10];
+
+    srand(time(NULL));
+
+    genRandomArray(arr, 10, -50, 50);
+
+    for (int i = 0; i < 10; i++) {
+        printf("%d ", arr[i]);
+    }
+}
+```
+
