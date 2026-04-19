@@ -117,22 +117,16 @@ int main() {
 
     // 分配指针数组
     int** dp = malloc(sizeof(*dp) * rows);
-    if (!dp) exit(1);
 
     // 每行单独分配
     for (int i = 0; i < rows; i++) {
         dp[i] = malloc(sizeof(*dp[i]) * columns);
-        if (!dp[i]) exit(1);
         memset(dp[i], 0, sizeof(*dp[i]) * columns);  // 初始化
     }
 
     // 使用 dp[i][j]
     dp[2][1] = 42;
     printf("%d\n", dp[2][1]);
-
-    // 释放内存
-    for (int i = 0; i < rows; i++) free(dp[i]);
-    free(dp);
 
     return 0;
 }
@@ -149,11 +143,9 @@ int main() {
 
     // 指针数组
     int** dp = malloc(sizeof(*dp) * rows);
-    if (!dp) exit(1);
 
     // 一块连续内存存放所有元素
     int* data = calloc(rows * columns, sizeof(*data));
-    if (!data) exit(1);
 
     // 让 dp[i] 指向每行的起始位置
     for (int i = 0; i < rows; i++)
@@ -162,10 +154,6 @@ int main() {
     // 使用 dp[i][j]
     dp[2][1] = 42;
     printf("%d\n", dp[2][1]);
-
-    // 释放内存
-    free(data);
-    free(dp);
 
     return 0;
 }
@@ -187,6 +175,39 @@ int main() {
 ```c
 // rows * 2
 int (*group)[2] = malloc(sizeof(*group) * rows);
+```
+
+### 三维数组连续分配
+
+```c
+#include <stdio.h>
+#include <stdlib.h>
+
+int main() {
+    int x = 3, y = 4, z = 5;
+
+    // 第一块：dp（x 个 int**）
+    int*** dp = malloc(x * sizeof(*dp));
+
+    // 第二块：plane（x*y 个 int*）
+    int** plane = malloc(x * y * sizeof(*plane));
+
+    // 第三块：data（真正连续数据）
+    int* data = calloc(x * y * z, sizeof(*data));
+
+    // 建立映射
+    for (int i = 0; i < x; i++) {
+        dp[i] = plane + i * y;   // 每层 y 行
+        for (int j = 0; j < y; j++) {
+            dp[i][j] = data + (i * y * z + j * z);
+        }
+    }
+
+    dp[1][2][3] = 123;
+    printf("%d\n", dp[1][2][3]);
+
+    return 0;
+}
 ```
 
 ### 输入输出
