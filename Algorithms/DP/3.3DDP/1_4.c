@@ -36,6 +36,8 @@ int findMaxForm(char** strs, int strsSize, int m, int n) {
 
     int rows = m + 1;
     int cols = n + 1;
+    // 前缀式 dp
+    // dp[i][j][k] = 从第 i 个字符串开始选，在最多还能用 j 个 0、k 个 1 的限制下，最多能选多少个字符串
     dp = malloc(sizeof(*dp) * strsSize);
     plane = malloc(sizeof(*plane) * strsSize * rows);
     data = malloc(sizeof(*data) * strsSize * rows * cols);
