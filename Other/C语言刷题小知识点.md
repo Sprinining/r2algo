@@ -263,6 +263,41 @@ int main() {
 }
 ```
 
+扁平化：
+
+```c
+#include <stdlib.h>
+#include <string.h>
+
+int I, J, K;
+int *dp;
+
+// 三维扁平化宏
+#define IDX(i, j, k) ((i) * (J * K) + (j) * (K) + (k))
+
+int main() {
+    I = 5, J = 4, K = 3;
+
+    dp = (int *)malloc(sizeof(int) * I * J * K);
+    memset(dp, 0, sizeof(int) * I * J * K);
+
+    // 写入
+    dp[IDX(1, 2, 1)] = 10;
+
+    // 遍历
+    for (int i = 0; i < I; i++) {
+        for (int j = 0; j < J; j++) {
+            for (int k = 0; k < K; k++) {
+                dp[IDX(i, j, k)] = i + j + k;
+            }
+        }
+    }
+
+    free(dp);
+    return 0;
+}
+```
+
 ### 输入输出
 
 #### 格式化输入输出 long long
