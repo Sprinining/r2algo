@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define IDX(i, j, k) (i * J * K + j * K + k)
+#define IDX(i, j, k) ((i) * (J) * (K) + (j) * (K) + (k))
 
 int dirs[8][2] = {{2, -1}, {2, 1}, {1, -2}, {1, 2}, {-1, -2}, {-1, 2}, {-2, -1}, {-2, 1}};
 int size;
@@ -28,6 +28,8 @@ double knightProbability(int n, int k, int row, int column) {
     I = k + 1;
     J = n;
     K = n;
+    // 后缀 dp
+    // dp[k][r][c] = 从 [r, c] 坐标开始走 k 步仍在棋盘上的概率
     dp = malloc(sizeof(*dp) * I * J * K);
     for (int i = 0; i < I * J * K; ++i) dp[i] = -1.0;
     return dfs(k, row, column);
