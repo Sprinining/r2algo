@@ -13,6 +13,7 @@ int profitableSchemes(int n, int minProfit, int* group, int groupSize, int* prof
     int rows = n + 1;
     int cols = minProfit + 1;
     // dp[i][j][k] = 前 i 个工作里选择，在 j 人可选且至少获利 k 的情况下的可能数
+    // 每个工作必须依赖前一个工作的结果，工作 i 放最前
     dp = malloc(sizeof(*dp) * layers);
     plane = malloc(sizeof(*plane) * layers * rows);
     data = calloc(layers * rows * cols, sizeof(*data));

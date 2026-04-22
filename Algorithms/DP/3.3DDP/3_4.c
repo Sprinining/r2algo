@@ -15,6 +15,7 @@ double knightProbability(int n, int k, int row, int column) {
     K = n;
     // 前缀 dp
     // dp[i][r][c] = 从 [r, c] 坐标开始走 i 步仍在棋盘上的概率
+    // i 是阶段，必须放最外层，当前第 i 步依赖上一步 i-1 步
     dp = malloc(sizeof(*dp) * I * J * K);
 
     for (int r = 0; r < J; ++r)
