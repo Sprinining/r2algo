@@ -1,11 +1,15 @@
 // 在这棵普通树里，找出一整棵完整子树（必须连根带所有后代，不能切一半），满足：
 // 这棵子树是合法 BST，在所有合法 BST 子树里，选节点数量最多的那一个
 // 最终返回：这个最大 BST 子树的节点个数
+// 左子树全部节点 < 根
+// 右子树全部节点 > 根
+// 左右子树各自也必须是 BST
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 
 #define MMAX(a, b) ((a) > (b) ? (a) : (b))
+#define MMIN(a, b) ((a) > (b) ? (b) : (a))
 
 typedef struct TreeNode {
     int val;
@@ -20,18 +24,41 @@ typedef struct Info {
     bool isBST;  // 是否为 BST
 } Info;
 
-Info* dfs(TN* r) {
-    if (r->left == NULL && r->right == NULL) {
-        Info* node = malloc(sizeof(*node));
-        node->max = r->val;
-        node->min = r->val;
-        node->cnt = 1;
-        node->isBST = true;
-        return node;
+int res;
+
+Info* dfs(TN* root) {
+    if (root == NULL) return NULL;
+    Info* node = malloc(sizeof(*node));
+    node->max = root->val;
+    node->min = root->val;
+    node->cnt = 1;
+    node->isBST = true;
+
+    Info* l = dfs(root->left);
+    if (l != NULL) {
+        if (l->max >= root->val || !l->isBST) node->isBST = false;
+        node->cnt += l->cnt;
+        node->max = MMAX(node->max, l->max);
+        node->min = MMIN(node->min, l->min);
     }
+
+    Info* r = dfs(root->right);
+    if (r != NULL) {
+        if (r->min <= root->val || !r->isBST) node->isBST = false;
+        node->cnt += r->cnt;
+        node->max = MMAX(node->max, r->max);
+        node->min = MMIN(node->min, r->min);
+    }
+
+    if (node->isBST) res = MMAX(res, node->cnt);
+    return node;
 }
 
-int largestBSTSubtree(struct TreeNode* root) {}
+int largestBSTSubtree(struct TreeNode* root) {
+    res = 0;
+    dfs(root);
+    return res;
+}
 
 struct TreeNode* newNode(int val) {
     struct TreeNode* node = (struct TreeNode*)malloc(sizeof(struct TreeNode));
