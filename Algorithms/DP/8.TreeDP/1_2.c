@@ -35,8 +35,8 @@ Info dfs(TN* root) {
 
     Info node;
     node.cnt = l.cnt + r.cnt + 1;
-    node.max = MMAX(root->val, r.max);
-    node.min = MMIN(root->val, l.min);
+    node.max = MMAX(root->val, MMAX(l.max, r.max));
+    node.min = MMIN(root->val, MMIN(l.min, r.min));
 
     if (l.isBST && r.isBST && l.max < root->val && r.min > root->val) {
         node.isBST = true;
