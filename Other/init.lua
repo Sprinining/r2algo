@@ -3,21 +3,21 @@
 -- =========================
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
-  local repo = "https://github.com/folke/lazy.nvim.git"
-  local out = vim.fn.system({
-    "git", "clone", "--filter=blob:none", "--branch=stable",
-    repo, lazypath
-  })
+    local repo = "https://github.com/folke/lazy.nvim.git"
+    local out = vim.fn.system({
+        "git", "clone", "--filter=blob:none", "--branch=stable",
+        repo, lazypath
+    })
 
-  if vim.v.shell_error ~= 0 then
-    vim.api.nvim_echo({
-      { "克隆 lazy.nvim 失败：\n", "ErrorMsg" },
-      { out, "WarningMsg" },
-      { "\n按任意键退出..." },
-    }, true, {})
-    vim.fn.getchar()
-    os.exit(1)
-  end
+    if vim.v.shell_error ~= 0 then
+        vim.api.nvim_echo({
+            { "克隆 lazy.nvim 失败：\n", "ErrorMsg" },
+            { out, "WarningMsg" },
+            { "\n按任意键退出..." },
+        }, true, {})
+        vim.fn.getchar()
+        os.exit(1)
+    end
 end
 
 vim.opt.rtp:prepend(lazypath)
@@ -104,32 +104,40 @@ keymap("n", "<C-Down>", ":resize +2<CR>", opts)
 keymap("n", "<C-Left>", ":vertical resize -2<CR>", opts)
 keymap("n", "<C-Right>", ":vertical resize +2<CR>", opts)
 
--- 文件浏览
-keymap("n", "<leader>e", ":Ex<CR>", opts)
-
 -- 禁用 Ctrl+Space
 keymap({ "n", "i", "v", "x", "t" }, "<C-Space>", "<Nop>", opts)
 vim.g.cmp_disable_ctrl_space = true
 
--- F5 编译运行 C
+-- F5 编译运行 C，CPP
 keymap("n", "<F5>", function()
-  vim.cmd("w")
-  vim.cmd("!gcc -g -Wall -Wextra % -o %:r && ./%:r")
+    vim.cmd("w")
+
+    local file = vim.fn.expand("%")
+    local out = vim.fn.expand("%:r")
+    local ft = vim.bo.filetype
+
+    if ft == "c" then
+        vim.cmd("!gcc -std=c11 -g " .. file .. " -o " .. out .. " && ./" .. out)
+    elseif ft == "cpp" then
+        vim.cmd("!g++ -std=c++17 -g " .. file .. " -o " .. out .. " && ./" .. out)
+    else
+        print("不支持的文件类型: " .. ft)
+    end
 end, opts)
 
 -- 手动格式化
 keymap("n", "<leader>f", function()
-  require("conform").format({ async = true })
+    require("conform").format({ async = true , lsp_fallback = true,})
 end, opts)
 
 -- 编辑区域居中
 keymap("n", "<leader>z", function()
-  require("zen-mode").toggle()
+    require("zen-mode").toggle()
 end, opts)
 
 -- 文件树
 keymap("n", "<leader>e", function()
-  require("nvim-tree.api").tree.toggle()
+    require("nvim-tree.api").tree.toggle()
 end, opts)
 
 -- =========================
@@ -138,93 +146,145 @@ end, opts)
 local group = vim.api.nvim_create_augroup("AutoFormat", { clear = true })
 
 vim.api.nvim_create_autocmd("BufWritePre", {
-  group = group,
-  callback = function()
-    require("conform").format({ async = false })
-  end,
+    group = group,
+    callback = function()
+        require("conform").format({ async = false, lsp_fallback = true,})
+    end,
 })
 
 -- =========================
 -- 插件（lazy.nvim）
 -- =========================
 require("lazy").setup({
-  spec = {
-    -- 主题
-    {
-      "ellisonleao/gruvbox.nvim",
-      priority = 1000,
-      config = function()
-        vim.cmd.colorscheme("gruvbox")
-      end,
-    },
-
-    -- 状态栏
-    {
-      "nvim-lualine/lualine.nvim",
-      dependencies = { "nvim-tree/nvim-web-devicons" },
-      config = true,
-    },
-
-    -- 自动括号
-    {
-      "windwp/nvim-autopairs",
-      event = "InsertEnter",
-      config = true,
-    },
-
-    -- 格式化
-    {
-      "stevearc/conform.nvim",
-      event = { "BufWritePre" },
-      config = function()
-        require("conform").setup({
-          formatters_by_ft = {
-            c = { "clang_format" },
-            cpp = { "clang_format" },
-            lua = { "stylua" },
-            python = { "black" },
-            javascript = { "prettier" },
-            typescript = { "prettier" },
-          },
-        })
-      end,
-    },
-
-    -- 窗口居中
-    {
-        "folke/zen-mode.nvim",
-        opts = {
-            window = {
-                width = 100,
-            }
-        }
-    },
-
-    -- 文件树
-    {
-        "nvim-tree/nvim-tree.lua",
-        dependencies = {
-            "nvim-tree/nvim-web-devicons",
+    spec = {
+        -- 主题
+        {
+            "ellisonleao/gruvbox.nvim",
+            priority = 1000,
+            config = function()
+                vim.cmd.colorscheme("gruvbox")
+            end,
         },
-        config = function()
-            vim.g.loaded_netrw = 1
-            vim.g.loaded_netrwPlugin = 1
 
-            require("nvim-tree").setup({
-                view = {
-                    width = 30,
-                },
-                renderer = {
-                    group_empty = true,
-                },
-                filters = {
-                    dotfiles = false,
-                },
-            })
-        end,
-    }
-  },
+        -- 状态栏
+        {
+            "nvim-lualine/lualine.nvim",
+            dependencies = { "nvim-tree/nvim-web-devicons" },
+            config = true,
+        },
 
-  install = { colorscheme = { "gruvbox" } },
-  checker = { enabled = true },
+        -- 自动括号
+        {
+            "windwp/nvim-autopairs",
+            event = "InsertEnter",
+            config = true,
+        },
+
+        -- 格式化
+        {
+            "stevearc/conform.nvim",
+            event = { "BufWritePre" },
+            config = function()
+                require("conform").setup({
+                    formatters_by_ft = {
+                        c = { "clang_format" },
+                        cpp = { "clang_format" },
+                        lua = { "stylua" },
+                        python = { "black" },
+                        javascript = { "prettier" },
+                        typescript = { "prettier" },
+                    },
+                })
+            end,
+        },
+
+        -- 窗口居中
+        {
+            "folke/zen-mode.nvim",
+            opts = {
+                window = {
+                    width = 100,
+                }
+            }
+        },
+
+        -- 文件树
+        {
+            "nvim-tree/nvim-tree.lua",
+            dependencies = {
+                "nvim-tree/nvim-web-devicons",
+            },
+            config = function()
+                vim.g.loaded_netrw = 1
+                vim.g.loaded_netrwPlugin = 1
+
+                require("nvim-tree").setup({
+                    view = {
+                        width = 30,
+                    },
+                    renderer = {
+                        group_empty = true,
+                    },
+                    filters = {
+                        dotfiles = false,
+                    },
+                })
+            end,
+        },
+        -- LSP + 补全
+        {
+            "hrsh7th/nvim-cmp",
+            dependencies = {
+                "hrsh7th/cmp-nvim-lsp",
+            },
+            config = function()
+                local cmp = require("cmp")
+                cmp.setup({
+                    mapping = cmp.mapping.preset.insert({
+                        ["<Tab>"] = cmp.mapping.select_next_item(),
+                        ["<S-Tab>"] = cmp.mapping.select_prev_item(),
+                        ["<CR>"] = cmp.mapping.confirm({ select = true }),
+                    }),
+                    sources = {
+                        { name = "nvim_lsp" },
+                    },
+                })
+
+            end,
+        },
+    },
+
+    install = { colorscheme = { "gruvbox" } },
+    checker = { enabled = true },
 })
+
+-- =========================
+-- LSP（clangd）
+-- =========================
+local capabilities = require("cmp_nvim_lsp").default_capabilities()
+
+-- 定义 clangd
+vim.lsp.config("clangd", {
+    cmd = {
+        "clangd",
+        "--background-index",
+        "--clang-tidy",
+        "--completion-style=detailed",
+        "--header-insertion=iwyu",
+    },
+
+    capabilities = capabilities,
+
+    on_attach = function(_, bufnr)
+        local opts = { buffer = bufnr, silent = true }
+
+        vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
+        vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
+        vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
+        vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
+        vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts)
+    end,
+})
+
+-- 启动 clangd
+vim.lsp.enable("clangd")
