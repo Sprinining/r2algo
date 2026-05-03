@@ -312,7 +312,7 @@ require("lazy").setup({
                             elements = {
                                 "scopes",    -- 当前函数变量
                                 "watches",   -- 手动监视变量
-                                -- "breakpoints",
+                                "breakpoints",
                                 -- "stacks",
                             },
                             size = 40,
@@ -385,6 +385,10 @@ require("lazy").setup({
                 keymap("n", "<F11>", dap.step_into, opts)
                 keymap("n", "<F12>", dap.step_out, opts)
                 keymap("n", "<leader>dr", dap.repl.open, opts)
+                -- 条件断点
+                keymap("n", "<leader>db", function()
+                    require("dap").set_breakpoint(vim.fn.input("Condition: "))
+                end, opts)
             end,
         },
     },
