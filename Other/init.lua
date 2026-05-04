@@ -158,11 +158,9 @@ keymap("n", "<F6>", function()
     _G.last_build_path = out
 
     -- 运行程序
-    local run = vim.fn.system(out)
-
-    vim.api.nvim_echo({ { run, "None" } }, false, {})
+    vim.cmd("split | terminal " .. out)
+    vim.cmd("startinsert")
 end, opts)
-
 
 -- =========================================================
 -- 常用功能快捷键
@@ -346,7 +344,7 @@ require("lazy").setup({
                 -- lldb 调试器
                 dap.adapters.lldb = {
                     type = "executable",
-                    command = "lldb-dap",
+                    command = "/usr/bin/lldb-dap",
                     name = "lldb",
                 }
 
@@ -373,6 +371,9 @@ require("lazy").setup({
                         cwd = "${workspaceFolder}",
                         stopOnEntry = false,
                         args = {},
+
+                        runInTerminal = true,
+                        console = "integratedTerminal",
                     },
                 }
 
