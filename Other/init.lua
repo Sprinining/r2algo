@@ -29,15 +29,6 @@ end
 -- 加入 runtimepath
 vim.opt.rtp:prepend(lazypath)
 
-
--- =========================================================
--- 全局变量
--- =========================================================
--- 保存最近一次编译生成的可执行文件路径
--- 给 debugger 使用
-_G.last_build_path = nil
-
-
 -- =========================================================
 -- 基础编辑器设置
 -- =========================================================
@@ -107,7 +98,13 @@ keymap({ "n", "i", "v" }, "<C-s>", "<Esc>:w<CR>", opts)
 keymap("n", "<C-q>", ":q<CR>", opts)
 
 -- 清除搜索高亮
-keymap("n", "<Esc>", ":nohlsearch<CR><Esc>", opts)
+keymap("n", "<Esc>", function()
+    if vim.v.hlsearch == 1 then
+        vim.cmd("nohlsearch")
+    else
+        return "<Esc>"
+    end
+end, { noremap = true, expr = true })
 
 -- 滚动并居中（提升阅读体验）
 keymap("n", "<C-u>", "<C-u>zz", opts)
@@ -128,39 +125,6 @@ keymap("n", "<C-Right>", ":vertical resize +2<CR>", opts)
 
 -- 禁用 Ctrl+Space（避免补全冲突）
 keymap({ "n", "i", "v", "x", "t" }, "<C-Space>", "<Nop>", opts)
-
-
--- =========================================================
--- F6：编译 + 运行（C / C++）
--- =========================================================
--- 功能流程：
--- 1. 保存文件
--- 2. g++ 编译当前文件
--- 3. 记录可执行文件路径
--- 4. 直接运行程序
-keymap("n", "<F6>", function()
-    vim.cmd("w")
-
-    local name = vim.fn.expand("%:r")   -- 文件名（无扩展名）
-    local src = vim.fn.expand("%")      -- 当前源文件
-    local out = vim.fn.getcwd() .. "/" .. name  -- 输出路径
-
-    -- 编译
-    local result = vim.fn.system("g++ -g " .. src .. " -o " .. out)
-
-    -- 编译失败
-    if vim.v.shell_error ~= 0 then
-        vim.api.nvim_echo({ { result, "ErrorMsg" } }, false, {})
-        return
-    end
-
-    -- 保存可执行文件路径（给 DAP 用）
-    _G.last_build_path = out
-
-    -- 运行程序
-    vim.cmd("split | terminal " .. out)
-    vim.cmd("startinsert")
-end, opts)
 
 -- =========================================================
 -- 常用功能快捷键
@@ -287,111 +251,6 @@ require("lazy").setup({
                 })
             end,
         },
-
-        -- =========================
-        -- DAP 调试系统
-        -- =========================
-        {
-            "mfussenegger/nvim-dap",
-            dependencies = {
-                "rcarriga/nvim-dap-ui",
-                "theHamsta/nvim-dap-virtual-text",
-                "nvim-neotest/nvim-nio",
-            },
-
-            config = function()
-                local dap = require("dap")
-                local dapui = require("dapui")
-
-                -- UI 布局（控制左侧/底部面板）
-                dapui.setup({
-                    layouts = {
-                        {
-                            elements = {
-                                "scopes",    -- 当前函数变量
-                                "watches",   -- 手动监视变量
-                                "breakpoints",
-                                -- "stacks",
-                            },
-                            size = 40,
-                            position = "left",
-                        },
-                        {
-                            elements = {
-                                "repl",      -- 调试控制台
-                            },
-                            size = 10,
-                            position = "bottom",
-                        },
-                    },
-                })
-
-                require("nvim-dap-virtual-text").setup()
-
-                -- debug 生命周期控制 UI
-                dap.listeners.after.event_initialized["dapui"] = function()
-                    dapui.open()
-                end
-
-                dap.listeners.before.event_terminated["dapui"] = function()
-                    dapui.close()
-                end
-
-                dap.listeners.before.event_exited["dapui"] = function()
-                    dapui.close()
-                end
-
-                -- lldb 调试器
-                dap.adapters.lldb = {
-                    type = "executable",
-                    command = "/usr/bin/lldb-dap",
-                    name = "lldb",
-                }
-
-                -- C++ debug 配置
-                dap.configurations.cpp = {
-                    {
-                        name = "Launch",
-                        type = "lldb",
-                        request = "launch",
-
-                        -- 自动使用最近编译结果
-                        program = function()
-                            if _G.last_build_path and vim.fn.filereadable(_G.last_build_path) == 1 then
-                                return _G.last_build_path
-                            end
-
-                            vim.api.nvim_echo({
-                                { "no build found, please press F6 first", "ErrorMsg" }
-                            }, false, {})
-
-                            return ""
-                        end,
-
-                        cwd = "${workspaceFolder}",
-                        stopOnEntry = false,
-                        args = {},
-
-                        runInTerminal = true,
-                        console = "integratedTerminal",
-                    },
-                }
-
-                dap.configurations.c = dap.configurations.cpp
-
-                -- debug 快捷键
-                keymap("n", "<F9>", dap.toggle_breakpoint, opts)
-                keymap("n", "<F5>", dap.continue, opts)
-                keymap("n", "<F10>", dap.step_over, opts)
-                keymap("n", "<F11>", dap.step_into, opts)
-                keymap("n", "<F12>", dap.step_out, opts)
-                keymap("n", "<leader>dr", dap.repl.open, opts)
-                -- 条件断点
-                keymap("n", "<leader>db", function()
-                    require("dap").set_breakpoint(vim.fn.input("Condition: "))
-                end, opts)
-            end,
-        },
     },
 
     install = { colorscheme = { "gruvbox" } },
@@ -405,12 +264,12 @@ require("lazy").setup({
 local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
 vim.lsp.config("clangd", {
-    cmd = {
+    cmd = { 
         "clangd",
         "--background-index",
         "--clang-tidy",
-        "--completion-style=detailed",
-        "--header-insertion=iwyu",
+        "--completion-style=bundled", 
+        "--header-insertion=iwyu", 
     },
 
     capabilities = capabilities,
