@@ -17,8 +17,9 @@ bool dfs(int stat, int cur, int left) {
     for (int i = 0; i < n; ++i) {
         if ((stat >> i) & 1) continue;
         if (cur + nums[i] > edge) continue;
-        if (cur + nums[i] == edge) res = res || dfs(stat | (1 << i), 0, left - 1);
-        if (cur + nums[i] < edge) res = res || dfs(stat | (1 << i), cur + nums[i], left);
+        if (cur + nums[i] == edge) res = dfs(stat | (1 << i), 0, left - 1);
+        if (cur + nums[i] < edge) res = dfs(stat | (1 << i), cur + nums[i], left);
+        if (res) break;
     }
     dp[stat] = res ? 1 : -1;
     return res;
