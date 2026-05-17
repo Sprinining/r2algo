@@ -42,6 +42,13 @@ delete 断点编号    # 删除断点  例：delete 1
 disable 断点编号   # 临时关闭断点
 enable 断点编号    # 重新打开断点
 delete            # 删除所有断点
+
+# 两种打条件断点方式
+# 1. 打断点时直接加条件
+break filename.c:42 if save[i] > 0 
+# 2. 先打断点，再加条件
+break filename.c:42
+condition 1 save[i] > 0
 ```
 
 ### 单步调试
