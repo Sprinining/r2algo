@@ -371,6 +371,36 @@ int cmp(const void *a, const void *b) {
 }
 ```
 
+```c
+#include <stdlib.h>
+
+// cmp 用于 qsort 排序 int** 数组（每个元素是指向长度为 3 的 int 数组的指针）
+// 按每个会议的时间（arr[2]）升序排序
+int cmp(const void* a, const void* b) {
+    // a, b 是指向数组元素的指针，这里数组元素是 int*（指向长度为 3 的 int 数组）
+    // 所以先把 void* 转成 int** 再解引用得到真正的 int*（指向一行会议数据）
+    int* arr1 = *(int**)a;
+    int* arr2 = *(int**)b;
+
+    // 比较会议时间
+    if (arr1[2] > arr2[2]) return 1;
+    if (arr1[2] < arr2[2]) return -1;
+    return 0;
+}
+
+int* findAllPeople(int n, int** meetings, int meetingsSize, int* meetingsColSize, int firstPerson,
+                   int* returnSize) {
+    // qsort 排序
+    // meetings 是 int**，是指针数组，每个元素是 int*，也就是 *meetings，指向长度为 3 的 int 数组
+    // qsort 只需要知道每个元素在内存中占多少字节（即 sizeof(int*)），而不需要知道指针指向数组的长度
+    qsort(meetings, meetingsSize, sizeof(*meetings), cmp);
+
+    // TODO: 后续逻辑处理传播秘密
+    *returnSize = 0;
+    return NULL;
+}
+```
+
 ### 数组传参会退化为指针
 
 ```c
