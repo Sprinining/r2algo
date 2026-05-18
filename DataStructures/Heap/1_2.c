@@ -28,8 +28,7 @@ void heapInsert(int* nums, int idx) {
     int cur = idx;
     int parent = (cur - 1) / 2;
     // cur > 0，不能到根节点还继续循环
-    while (cur > 0) {
-        if (val <= nums[parent]) break;
+    while (cur > 0 && val > nums[parent]) {
         nums[cur] = nums[parent];
         cur = parent;
         parent = (cur - 1) / 2;
