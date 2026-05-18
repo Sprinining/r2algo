@@ -1,5 +1,11 @@
+void swap(int* a, int* b) {
+    int temp = *a;
+    *a = *b;
+    *b = temp;
+}
+
 // 自上而下调整大顶堆，O(logn)
-void adjust(int* nums, int n, int idx) {
+void heapify(int* nums, int n, int idx) {
     int val = nums[idx];
     // 当前要调整位置，找最终位置的下标
     int cur = idx;
@@ -16,14 +22,8 @@ void adjust(int* nums, int n, int idx) {
     nums[cur] = val;
 }
 
-void swap(int* a, int* b) {
-    int temp = *a;
-    *a = *b;
-    *b = temp;
-}
-
 // 堆尾插入元素，然后向上调整
-void heapInsert(int* nums, int idx) {
+void percolateUp(int* nums, int idx) {
     int val = nums[idx];
     int cur = idx;
     int parent = (cur - 1) / 2;
@@ -38,7 +38,7 @@ void heapInsert(int* nums, int idx) {
 
 // 自顶向下建堆，O(nlogn)
 void topDown(int* nums, int n) {
-    for (int i = 0; i < n; ++i) heapInsert(nums, i);
+    for (int i = 0; i < n; ++i) percolateUp(nums, i);
 }
 
 int* sortArray(int* nums, int numsSize, int* returnSize) {
@@ -46,7 +46,7 @@ int* sortArray(int* nums, int numsSize, int* returnSize) {
 
     for (int i = numsSize - 1; i > 0; --i) {
         swap(&nums[0], &nums[i]);
-        adjust(nums, i, 0);
+        heapify(nums, i, 0);
     }
 
     *returnSize = numsSize;

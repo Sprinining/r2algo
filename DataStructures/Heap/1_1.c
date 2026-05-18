@@ -1,5 +1,11 @@
+void swap(int* a, int* b) {
+    int temp = *a;
+    *a = *b;
+    *b = temp;
+}
+
 // 自上而下调整大顶堆，O(logn)
-void adjust(int* nums, int n, int idx) {
+void heapify(int* nums, int n, int idx) {
     int val = nums[idx];
     // 当前要调整位置，找最终位置的下标
     int cur = idx;
@@ -19,13 +25,7 @@ void adjust(int* nums, int n, int idx) {
 // 自底向上建堆，O(n)
 void bottomUp(int* nums, int n) {
     // 从最后一个非叶子节点开始往上
-    for (int i = (n - 1) / 2; i >= 0; --i) adjust(nums, n, i);
-}
-
-void swap(int* a, int* b) {
-    int temp = *a;
-    *a = *b;
-    *b = temp;
+    for (int i = (n - 1) / 2; i >= 0; --i) heapify(nums, n, i);
 }
 
 int* sortArray(int* nums, int numsSize, int* returnSize) {
@@ -33,7 +33,7 @@ int* sortArray(int* nums, int numsSize, int* returnSize) {
 
     for (int i = numsSize - 1; i > 0; --i) {
         swap(&nums[0], &nums[i]);
-        adjust(nums, i, 0);
+        heapify(nums, i, 0);
     }
 
     *returnSize = numsSize;
