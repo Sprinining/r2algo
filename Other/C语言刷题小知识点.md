@@ -371,34 +371,71 @@ int cmp(const void *a, const void *b) {
 }
 ```
 
+#### 二维数组和qsort
+
 ```c
+#include <stdio.h>
 #include <stdlib.h>
 
-// cmp 用于 qsort 排序 int** 数组（每个元素是指向长度为 3 的 int 数组的指针）
-// 按每个会议的时间（arr[2]）升序排序
-int cmp(const void* a, const void* b) {
-    // a, b 是指向数组元素的指针，这里数组元素是 int*（指向长度为 3 的 int 数组）
-    // 所以先把 void* 转成 int** 再解引用得到真正的 int*（指向一行会议数据）
-    int* arr1 = *(int**)a;
-    int* arr2 = *(int**)b;
+// ==========================================
+// 方式一：静态二维数组的比较函数 (一级指针)
+// ==========================================
+int cmp_static_2d(const void* a, const void* b) {
+    int* row_a = (int*)a;
+    int* row_b = (int*)b;
+    return row_a[0] - row_b[0];
+}
 
-    // 比较会议时间
-    if (arr1[2] > arr2[2]) return 1;
-    if (arr1[2] < arr2[2]) return -1;
+// ==========================================
+// 方式二和方式三：动态数组的比较函数 (二级指针解引用)
+// ==========================================
+int cmp_dynamic(const void* a, const void* b) {
+    int* row_a = *(int**)a;
+    int* row_b = *(int**)b;
+    return row_a[0] - row_b[0];
+}
+
+int main() {
+    printf("--- 1. 验证静态二维数组 int line[3][2] ---\n");
+    int line1[3][2] = {{5, 10}, {1, 20}, {3, 30}};
+    // 永远都写 sizeof(line1[0])，这代表第 0 个格子的大小，不要写 sizeof(*line1)
+    qsort(line1, 3, sizeof(line1[0]), cmp_static_2d);
+    for (int i = 0; i < 3; i++) {
+        printf("Row %d: [%d, %d]\n", i, line1[i][0], line1[i][1]);
+    }
+
+    printf("\n--- 2. 验证动态指针数组 int* line[3] ---\n");
+    int row0[2] = {5, 10};
+    int row1[2] = {1, 20};
+    int row2[2] = {3, 30};
+    int* line2[3] = {row0, row1, row2};
+    qsort(line2, 3, sizeof(line2[0]), cmp_dynamic);
+    for (int i = 0; i < 3; i++) {
+        printf("Row %d: [%d, %d]\n", i, line2[i][0], line2[i][1]);
+    }
+
+    printf("\n--- 3. 验证双重动态二级指针 int** line ---\n");
+    int** line3 = (int**)malloc(3 * sizeof(int*));
+    line3[0] = (int*)malloc(2 * sizeof(int));
+    line3[0][0] = 5;
+    line3[0][1] = 10;
+    line3[1] = (int*)malloc(2 * sizeof(int));
+    line3[1][0] = 1;
+    line3[1][1] = 20;
+    line3[2] = (int*)malloc(2 * sizeof(int));
+    line3[2][0] = 3;
+    line3[2][1] = 30;
+
+    qsort(line3, 3, sizeof(line3[0]), cmp_dynamic);
+    for (int i = 0; i < 3; i++) {
+        printf("Row %d: [%d, %d]\n", i, line3[i][0], line3[i][1]);
+    }
+
+    for (int i = 0; i < 3; i++) free(line3[i]);
+    free(line3);
     return 0;
 }
 
-int* findAllPeople(int n, int** meetings, int meetingsSize, int* meetingsColSize, int firstPerson,
-                   int* returnSize) {
-    // qsort 排序
-    // meetings 是 int**，是指针数组，每个元素是 int*，也就是 *meetings，指向长度为 3 的 int 数组
-    // qsort 只需要知道每个元素在内存中占多少字节（即 sizeof(int*)），而不需要知道指针指向数组的长度
-    qsort(meetings, meetingsSize, sizeof(*meetings), cmp);
-
-    // TODO: 后续逻辑处理传播秘密
-    *returnSize = 0;
-    return NULL;
-}
 ```
 
 ### 数组传参会退化为指针
