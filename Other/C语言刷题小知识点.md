@@ -22,36 +22,11 @@ int **spiralMatrix(int m, int n, struct ListNode *head, int *returnSize, int **r
 }
 ```
 
-### 头文件string.h中定义的函数
-
-| 序号 | 函数 & 描述                                                                                                                                                                                                                                                                                               |
-| :--- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1    | [void *memchr(const void *str, int c, size_t n)](https://www.runoob.com/cprogramming/c-function-memchr.html) 在参数 *str* 所指向的字符串的前 n 个字节中搜索第一次出现字符 c（一个无符号字符）的位置。                                                                                                     |
-| 2    | [int memcmp(const void *str1, const void *str2, size_t n)](https://www.runoob.com/cprogramming/c-function-memcmp.html) 把 *str1* 和 *str2* 的前 n 个字节进行比较。                                                                                                                                        |
-| 3    | [void *memcpy(void *dest, const void *src, size_t n)](https://www.runoob.com/cprogramming/c-function-memcpy.html) 从 src 复制 n 个字符到 *dest*。                                                                                                                                                         |
-| 4    | [void *memmove(void *dest, const void *src, size_t n)](https://www.runoob.com/cprogramming/c-function-memmove.html) 另一个用于从 *src* 复制 n 个字符到 *dest* 的函数。                                                                                                                                    |
-| 5    | [void *memset(void *str, int c, size_t n)](https://www.runoob.com/cprogramming/c-function-memset.html) 复制字符 c（一个无符号字符）到参数 *str* 所指向的字符串的前 n 个字符。                                                                                                                             |
-| 6    | [char *strcat(char *dest, const char *src)](https://www.runoob.com/cprogramming/c-function-strcat.html) ==把 *src* 所指向的字符串追加到 *dest* 所指向的字符串的结尾。==                                                                                                                                   |
-| 7    | [char *strncat(char *dest, const char *src, size_t n)](https://www.runoob.com/cprogramming/c-function-strncat.html) 把 *src* 所指向的字符串追加到 *dest* 所指向的字符串的结尾，直到 n 字符长度为止。                                                                                                      |
-| 8    | [char *strchr(const char *str, int c)](https://www.runoob.com/cprogramming/c-function-strchr.html) 在参数 *str* 所指向的字符串中搜索第一次出现字符 c（一个无符号字符）的位置。                                                                                                                            |
-| 9    | [int strcmp(const char *str1, const char *str2)](https://www.runoob.com/cprogramming/c-function-strcmp.html) ==把 *str1* 所指向的字符串和 *str2* 所指向的字符串进行比较。==                                                                                                                               |
-| 10   | [int strncmp(const char *str1, const char *str2, size_t n)](https://www.runoob.com/cprogramming/c-function-strncmp.html) 把 *str1* 和 *str2* 进行比较，最多比较前 n 个字节。                                                                                                                              |
-| 11   | [int strcoll(const char *str1, const char *str2)](https://www.runoob.com/cprogramming/c-function-strcoll.html) 把 *str1* 和 *str2* 进行比较，结果取决于 LC_COLLATE 的位置设置。                                                                                                                           |
-| 12   | [char *strcpy(char *dest, const char *src) ](https://www.runoob.com/cprogramming/c-function-strcpy.html) ==把 *src* 所指向的字符串复制到 *dest*。==                                                                                                                                                       |
-| 13   | [char *strncpy(char *dest, const char *src, size_t n)](https://www.runoob.com/cprogramming/c-function-strncpy.html) 把 *src* 所指向的字符串复制到 *dest*，最多复制 n 个字符。                                                                                                                             |
-| 14   | [size_t strcspn(const char *str1, const char *str2)](https://www.runoob.com/cprogramming/c-function-strcspn.html) 检索字符串 str1 开头连续有几个字符都不含字符串 str2 中的字符。                                                                                                                          |
-| 15   | [char *strerror(int errnum)](https://www.runoob.com/cprogramming/c-function-strerror.html) 从内部数组中搜索错误号 errnum，并返回一个指向错误消息字符串的指针。                                                                                                                                            |
-| 16   | [size_t strlen(const char *str)](https://www.runoob.com/cprogramming/c-function-strlen.html) ==计算字符串 str 的长度，直到空结束字符，但不包括空结束字符。==                                                                                                                                              |
-| 17   | [char *strpbrk(const char *str1, const char *str2)](https://www.runoob.com/cprogramming/c-function-strpbrk.html) 检索字符串 *str1* 中第一个匹配字符串 *str2* 中字符的字符，不包含空结束字符。也就是说，依次检验字符串 str1 中的字符，当被检验字符在字符串 str2 中也包含时，则停止检验，并返回该字符位置。 |
-| 18   | [char *strrchr(const char *str, int c)](https://www.runoob.com/cprogramming/c-function-strrchr.html) 在参数 *str* 所指向的字符串中搜索最后一次出现字符 c（一个无符号字符）的位置。                                                                                                                        |
-| 19   | [size_t strspn(const char *str1, const char *str2)](https://www.runoob.com/cprogramming/c-function-strspn.html) 检索字符串 *str1* 中第一个不在字符串 *str2* 中出现的字符下标。                                                                                                                            |
-| 20   | [char *strstr(const char *haystack, const char *needle)](https://www.runoob.com/cprogramming/c-function-strstr.html) 在字符串 *haystack* 中查找第一次出现字符串 *needle*（不包含空结束字符）的位置。                                                                                                      |
-| 21   | [char *strtok(char *str, const char *delim)](https://www.runoob.com/cprogramming/c-function-strtok.html) 分解字符串 *str* 为一组字符串，*delim* 为分隔符。                                                                                                                                                |
-| 22   | [size_t strxfrm(char *dest, const char *src, size_t n)](https://www.runoob.com/cprogramming/c-function-strxfrm.html) 根据程序当前的区域选项中的 LC_COLLATE 来转换字符串 **src** 的前 **n** 个字符，并把它们放置在字符串 **dest** 中。                                                                     |
-
-- memset
+### memset
 
 ```c
+#include <string.h>
+
 int main() {
     int arr[3];
     // memset(dst, val, size)
@@ -70,486 +45,70 @@ int main() {
 }
 ```
 
-### 头文件stdlib.h中定义的函数
-
-| 序号 | 函数 & 描述                                                                                                                                                                                                           |
-| :--- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1    | [double atof(const char *str)](https://www.runoob.com/cprogramming/c-function-atof.html) 把参数 *str* 所指向的字符串转换为一个浮点数（类型为 double 型）。                                                            |
-| 2    | [int atoi(const char *str)](https://www.runoob.com/cprogramming/c-function-atoi.html) 把参数 *str* 所指向的字符串转换为一个整数（类型为 int 型）。                                                                    |
-| 3    | [long int atol(const char *str)](https://www.runoob.com/cprogramming/c-function-atol.html) 把参数 *str* 所指向的字符串转换为一个长整数（类型为 long int 型）。                                                        |
-| 4    | [double strtod(const char *str, char **endptr)](https://www.runoob.com/cprogramming/c-function-strtod.html) 把参数 *str* 所指向的字符串转换为一个浮点数（类型为 double 型）。                                         |
-| 5    | [long int strtol(const char *str, char **endptr, int base)](https://www.runoob.com/cprogramming/c-function-strtol.html) 把参数 *str* 所指向的字符串转换为一个长整数（类型为 long int 型）。                           |
-| 6    | [unsigned long int strtoul(const char *str, char **endptr, int base)](https://www.runoob.com/cprogramming/c-function-strtoul.html) 把参数 *str* 所指向的字符串转换为一个无符号长整数（类型为 unsigned long int 型）。 |
-| 7    | [void *calloc(size_t nitems, size_t size)](https://www.runoob.com/cprogramming/c-function-calloc.html) ==分配所需的内存空间，内存全部初始化为零，并返回一个指向它的指针。==                                           |
-| 8    | [void free(void *ptr)](https://www.runoob.com/cprogramming/c-function-free.html) 释放之前调用 *calloc、malloc* 或 *realloc* 所分配的内存空间。                                                                        |
-| 9    | [void *malloc(size_t size)](https://www.runoob.com/cprogramming/c-function-malloc.html) ==分配所需的内存空间，并返回一个指向它的指针。==                                                                              |
-| 10   | [void *realloc(void *ptr, size_t size)](https://www.runoob.com/cprogramming/c-function-realloc.html) ==尝试重新调整之前调用 *malloc* 或 *calloc* 所分配的 ptr 所指向的内存块的大小。==                                |
-| 11   | [void abort(void)](https://www.runoob.com/cprogramming/c-function-abort.html) 使一个异常程序终止。                                                                                                                    |
-| 12   | [int atexit(void (*func)(void))](https://www.runoob.com/cprogramming/c-function-atexit.html) 当程序正常终止时，调用指定的函数 **func**。                                                                              |
-| 13   | [void exit(int status)](https://www.runoob.com/cprogramming/c-function-exit.html) 使程序正常终止。                                                                                                                    |
-| 14   | [char *getenv(const char *name)](https://www.runoob.com/cprogramming/c-function-getenv.html) 搜索 name 所指向的环境字符串，并返回相关的值给字符串。                                                                   |
-| 15   | [int system(const char *string)](https://www.runoob.com/cprogramming/c-function-system.html) 由 string 指定的命令传给要被命令处理器执行的主机环境。                                                                   |
-| 16   | [void *bsearch(const void *key, const void *base, size_t nitems, size_t size, int (*compar)(const void *, const void *))](https://www.runoob.com/cprogramming/c-function-bsearch.html) 执行二分查找。                 |
-| 17   | [void qsort(void *base, size_t nitems, size_t size, int (*compar)(const void *, const void*))](https://www.runoob.com/cprogramming/c-function-qsort.html) ==数组排序。==                                              |
-| 18   | [int abs(int x)](https://www.runoob.com/cprogramming/c-function-abs.html) 返回 x 的绝对值。                                                                                                                           |
-| 19   | [div_t div(int numer, int denom)](https://www.runoob.com/cprogramming/c-function-div.html) 分子除以分母。                                                                                                             |
-| 20   | [long int labs(long int x)](https://www.runoob.com/cprogramming/c-function-labs.html) 返回 x 的绝对值。                                                                                                               |
-| 21   | [ldiv_t ldiv(long int numer, long int denom)](https://www.runoob.com/cprogramming/c-function-ldiv.html) 分子除以分母。                                                                                                |
-| 22   | [int rand(void)](https://www.runoob.com/cprogramming/c-function-rand.html) ==返回一个范围在 0 到 *RAND_MAX* 之间的伪随机数。==                                                                                        |
-| 23   | [void srand(unsigned int seed)](https://www.runoob.com/cprogramming/c-function-srand.html) 该函数播种由函数 **rand** 使用的随机数发生器。                                                                             |
-| 24   | [int mblen(const char *str, size_t n)](https://www.runoob.com/cprogramming/c-function-mblen.html) 返回参数 *str* 所指向的多字节字符的长度。                                                                           |
-| 25   | [size_t mbstowcs(schar_t *pwcs, const char *str, size_t n)](https://www.runoob.com/cprogramming/c-function-mbstowcs.html) 把参数 *str* 所指向的多字节字符的字符串转换为参数 *pwcs* 所指向的数组。                     |
-| 26   | [int mbtowc(whcar_t *pwc, const char *str, size_t n)](https://www.runoob.com/cprogramming/c-function-mbtowc.html) 检查参数 *str* 所指向的多字节字符。                                                                 |
-| 27   | [size_t wcstombs(char *str, const wchar_t *pwcs, size_t n)](https://www.runoob.com/cprogramming/c-function-wcstombs.html) 把数组 *pwcs* 中存储的编码转换为多字节字符，并把它们存储在字符串 *str* 中。                 |
-| 28   | [int wctomb(char *str, wchar_t wchar)](https://www.runoob.com/cprogramming/c-function-wctomb.html) 检查对应于参数 *wchar* 所给出的多字节字符的编码。                                                                  |
-
-### 二维数组连续分配
-
-#### 每行单独 malloc（非连续内存）
-
-```c
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
-int main() {
-    int rows = 6, columns = 4;
-
-    // 分配指针数组
-    int** dp = malloc(sizeof(*dp) * rows);
-
-    // 每行单独分配
-    for (int i = 0; i < rows; i++) {
-        dp[i] = malloc(sizeof(*dp[i]) * columns);
-        memset(dp[i], 0, sizeof(*dp[i]) * columns);  // 初始化
-    }
-
-    // 使用 dp[i][j]
-    dp[2][1] = 42;
-    printf("%d\n", dp[2][1]);
-
-    return 0;
-}
-```
-
-#### 整块连续内存
-
-```c
-#include <stdio.h>
-#include <stdlib.h>
-
-int main() {
-    int rows = 6, columns = 4;
-
-    // 指针数组
-    int** dp = malloc(sizeof(*dp) * rows);
-
-    // 一块连续内存存放所有元素
-    int* data = calloc(rows * columns, sizeof(*data));
-
-    // 让 dp[i] 指向每行的起始位置
-    for (int i = 0; i < rows; i++)
-        dp[i] = data + i * columns;
-
-    // 使用 dp[i][j]
-    dp[2][1] = 42;
-    printf("%d\n", dp[2][1]);
-
-    return 0;
-}
-```
-
-#### 对比
-
-| 维度        | 每行 malloc                  | 连续内存                   |
-| ----------- | ---------------------------- | -------------------------- |
-| 内存布局    | 每行连续，行与行不连续       | 完全连续                   |
-| malloc 次数 | rows + 1                     | 2                          |
-| 释放        | 需要循环 free 每行 + free dp | 只需要 free data + free dp |
-| 性能        | cache 不友好                 | cache 友好，访问快         |
-| 灵活性      | 每行长度可以不同             | 每行长度必须固定           |
-| 初始化      | 需要循环 memset              | calloc 一次搞定            |
-
-#### 列数固定
+- `memset(arr, 0, sizeof(arr));` ：初始化数组为 0 或者 false
+- `memset(arr, -1, sizeof(arr));` ：初始化数组为 -1
+- `memset(arr, 0x3f, sizeof(arr));` ：初始化数组为无穷大（近似值）
 
-```c
-// rows * 2
-int (*group)[2] = malloc(sizeof(*group) * rows);
-```
+### C 语言常见格式化输入输出
 
-### 三维数组连续分配
+在 C 语言中，格式化输入输出主要依赖标准库 `<stdio.h>` 中的 `printf` 和 `scanf` 函数。通过引入**格式占位符**，编译器能够知道如何将内存中的二进制数据转换为人类可读的文本，或者反过来解析输入。
 
-```c
-#include <stdio.h>
-#include <stdlib.h>
+#### 常见数据类型占位符
 
-int main() {
-    int x = 3, y = 4, z = 5;
+| 数据类型            | 占位符       | 说明                                                    | 示例                            |
+| :------------------ | :----------- | :------------------------------------------------------ | :------------------------------ |
+| **`int`**           | `%d` 或 `%i` | 有符号十进制整数                                        | `printf("%d", 100);`            |
+| **`unsigned int`**  | `%u`         | 无符号十进制整数                                        | `printf("%u", 100u);`           |
+| **`size_t`**        | `%zu`        | `sizeof` 运算符返回的无符号整型（C99 标准）             | `printf("%zu", sizeof(int));`   |
+| **`char`**          | `%c`         | 单个字符                                                | `printf("%c", 'A');`            |
+| **`char[]` / 指针** | `%s`         | 字符串（遇到 `\0` 结束）                                | `printf("%s", "Hello");`        |
+| **`float`**         | `%f`         | 单精度浮点数（默认保留 6 位小数）                       | `printf("%f", 3.14f);`          |
+| **`double`**        | `%lf`        | 双精度浮点数（**printf 可用 %f，但 scanf 必须用 %lf**） | `scanf("%lf", &d);`             |
+| **`short`**         | `%hd`        | 短整型                                                  | `printf("%hd", s);`             |
+| **`long`**          | `%ld`        | 长整型                                                  | `printf("%ld", l);`             |
+| **`long long`**     | `%lld`       | 更长的整型（C99 标准）                                  | `printf("%lld", ll);`           |
+| **十六进制**        | `%x` 或 `%X` | 无符号十六进制整数（小写/大写）                         | `printf("%x", 255);` // 输出 ff |
+| **八进制**          | `%o`         | 无符号八进制整数                                        | `printf("%o", 8);` // 输出 10   |
+| **指针地址**        | `%p`         | 输出变量的十六进制内存地址                              | `printf("%p", &a);`             |
 
-    // =========================
-    // 内存结构说明（三块连续区域）
-    //
-    // dp    : 第一层指针（大小 x）
-    // plane : 第二层指针（大小 x*y）
-    // data  : 真正存数据（大小 x*y*z）
-    //
-    // 逻辑访问形式：dp[i][j][k]
-    // =========================
+#### printf 进阶：格式修饰符（控制输出样式）
 
+在 `%` 和占位符字母之间，可以插入数字或符号来精细控制输出的宽度、对齐方式和小数位数：
 
-    // 第一块：dp（x 个 int**）
-    // dp 是一个“指向二维指针数组的指针”
-    // 每个 dp[i] 表示第 i 层（一个二维平面）
-    int*** dp = malloc(x * sizeof(*dp));
+##### 1. 控制浮点数小数位数（`.n`）
 
+* `%.2f`：表示保留 2 位小数（进行四舍五入）。
+* `示例`：`printf("%.2f", 3.14159);` $\rightarrow$ 输出 `3.14`
 
-    // 第二块：plane（x*y 个 int*）
-    // plane 是所有“行指针”的集合
-    // 每个 plane[k] 最终会指向一行（长度为 z）
-    int** plane = malloc(x * y * sizeof(*plane));
+##### 2. 控制输出最小宽度（`n`）
 
+* `%5d`：表示输出至少占 5 个字符位。如果实际数字不足 5 位，**左侧补空格**（默认右对齐）。
+* `示例`：`printf("%5d", 12);` $\rightarrow$ 输出 `   12`（前面有 3 个空格）
 
-    // 第三块：data（真正连续的数据区）
-    // 一块完整连续内存，用来存所有元素
-    // 大小 = x * y * z
-    int* data = calloc(x * y * z, sizeof(*data));
+##### 3. 左对齐修饰符（`-`）
 
+* `%-5d`：表示输出占 5 个字符位，且**左对齐**，不足的位数在右侧补空格。
+* `示例`：`printf("%-5d", 12);` $\rightarrow$ 输出 `12   `（后面有 3 个空格）
 
-    // =========================
-    // 建立三维索引映射关系
-    // =========================
-    for (int i = 0; i < x; i++) {
+##### 4. 前导补零（`0`）
 
-        // dp[i] 指向 plane 中的第 i 段
-        // 每一段长度是 y（对应 y 行）
-        //
-        // plane:
-        // [ (i=0的y行) | (i=1的y行) | (i=2的y行) ... ]
-        //
-        dp[i] = plane + i * y;
+* `%05d`：表示输出占 5 个字符位，不足的位数在**左侧补 0**（常用于显示时间、编号）。
+* `示例`：`printf("%05d", 12);` $\rightarrow$ 输出 `00012`
 
-        for (int j = 0; j < y; j++) {
+#### scanf 输入注意事项
 
-            // dp[i][j] 指向 data 中的一段连续长度为 z 的空间
-            //
-            // 三维下标 → 一维偏移公式：
-            // offset = i * (y*z) + j * z + k
-            //
-            // 这里先定位到 (i, j, 0)
-            dp[i][j] = data + (i * y * z + j * z);
-        }
-    }
+在使用 `scanf` 进行格式化输入时，有几个底层的硬件与逻辑陷阱需要注意：
 
+##### 1. 必须传递变量的地址（`&`）
+除了字符串数组名本身就代表地址外，基本类型（如 `int`, `char`, `float`）输入时必须在变量名前加取地址符 `&`。
+* `错误`：`scanf("%d", a);`（会导致程序崩溃或内存非法写入）
+* ` 正确`：`scanf("%d", &a);`
 
-    // =========================
-    // 使用示例
-    // =========================
+##### 2. 空格与回车的“过滤”机制
+* 当使用 `%d`、`%f`、`%s` 输入时，`scanf` 会**自动跳过**前面的空格、制表符（Tab）和回车。
+* **特例 `%c`**：`%c` 会忠实地读取**任何字符**，包括你上一次输入完数字后敲下的“回车键（`\n`）”。
+* `解决方案`：在 `%c` 前面加一个空格，写成 `scanf(" %c", &ch);`，这样编译器就会自动帮你过滤掉前面的回车和空格。+
 
-    dp[1][2][3] = 123;
-
-    // 实际访问的是：
-    // data[1 * (y*z) + 2 * z + 3]
-    printf("%d\n", dp[1][2][3]);
-
-
-    // =========================
-    // 释放内存（顺序很重要）
-    // =========================
-    free(data);   // 先释放数据
-    free(plane);  // 再释放行指针
-    free(dp);     // 最后释放顶层指针
-
-    return 0;
-}
-```
-
-扁平化：
-
-```c
-#include <stdlib.h>
-#include <string.h>
-
-int I, J, K;
-int *dp;
-
-// 三维扁平化宏
-#define IDX(i, j, k) ((i) * (J * K) + (j) * (K) + (k))
-
-int main() {
-    I = 5, J = 4, K = 3;
-
-    dp = (int *)malloc(sizeof(int) * I * J * K);
-    memset(dp, 0, sizeof(int) * I * J * K);
-
-    // 写入
-    dp[IDX(1, 2, 1)] = 10;
-
-    // 遍历
-    for (int i = 0; i < I; i++) {
-        for (int j = 0; j < J; j++) {
-            for (int k = 0; k < K; k++) {
-                dp[IDX(i, j, k)] = i + j + k;
-            }
-        }
-    }
-
-    free(dp);
-    return 0;
-}
-```
-
-### 输入输出
-
-#### 格式化输入输出 long long
-
-`int` 与 `long long` 的关键区别在于**格式化符号**：
-
-- scanf：`%d` → int, `%lld` → long long
-- printf：`%d` → int, `%lld` → long long
-
-不加 `ll` 就会截断或未定义行为。
-
-### 排序
-
-`qsort` 是 C 标准库（`stdlib.h`）提供的一个**通用排序函数**。
-
-```c
-void qsort(void *base, size_t nmemb, size_t size,
-           int (*compar)(const void *, const void *));
-```
-
-数组起始地址 base:
-
-```c
-int arr[5];
-qsort(arr, ...);
-```
-
-元素个数 nmemb:
-
-```c
-sizeof(arr) / sizeof(arr[0])
-```
-
-每个元素的大小 size:
-
-```c
-sizeof(int)
-```
-
-比较函数 compar:
-
-```c
-int cmp(const void *a, const void *b);
-```
-
-返回值规则：
-
-| 返回值 | 含义   |
-| ------ | ------ |
-| < 0    | a 在前 |
-| = 0    | 相等   |
-| > 0    | b 在前 |
-
-#### 错误写法
-
-```c
-return *(int*)a - *(int*)b;
-```
-
-如果数据很大可能溢出
-
-#### 正确写法
-
-```c
-int cmp(const void *a, const void *b) {
-    int x = *(int*)a;
-    int y = *(int*)b;
-    if (x < y) return -1;
-    if (x > y) return 1;
-    return 0;
-}
-```
-
-#### 二维数组和qsort
-
-```c
-#include <stdio.h>
-#include <stdlib.h>
-
-// 1. 静态二维数组的比较函数
-int cmp_static_2d(const void* a, const void* b) {
-    // 静态数组中，a 拿着的是行数据 arr[i] 的物理起点
-    // 类型是 int[3]，即一个拥有 3 个 int 的一维数组
-    // 作为参数传递时退化为一级指针，变成 int* 类型
-    // 退化后的物理地址刚好等于 &arr[i][0]
-    printf("  [cmp_static] a 存的地址=%p, 指向的数字=%d\n", a, *(int*)a);
-    int* x = (int*)a;
-    int* y = (int*)b;
-    return x[0] - y[0];
-}
-
-// 2. 动态数组的比较函数
-int cmp_dynamic(const void* a, const void* b) {
-    // 动态数组中，主数组格子里装的是行指针（int*）
-    // qsort 传过来的 a 是“存放这个行指针的格子的地址”，即二级指针（int**）
-    // 所以必须通过 *(int**)a，伸手把格子里存的那个“行指针”掏出来！
-    int* x = *(int**)a;
-    int* y = *(int**)b;
-
-    printf(
-        "  [cmp_dynamic] a 存的格子地址=%p, 掏出来的行指针=%p, 指向的数字=%d\n",
-        a, (void*)x, x[0]);
-
-    return x[0] - y[0];
-}
-
-int main() {
-    // 方式一：静态二维数组 int arr1[2][3]
-    printf("=== 验证方式一：静态二维数组 int arr[2][3] ===\n");
-    // 整个二维数组在内存中是一个“统一的整体”
-    // 编译器在栈上只“斩下一刀”分配了 24 字节。
-    // 尽管栈是向下生长的，但数组作为单一变量，其内部元素必须遵循“行优先原则”：
-    // 它的微观排布是绝对正向递增的
-    // 所以第二行的首地址完美的、紧紧地接在第一行最后一个元素之后
-    int arr1[2][3] = {{2, 4, 6}, {1, 3, 5}};
-    for (int i = 0; i < 2; ++i) {
-        // arr1[i] 的官方类型是 int[3]，sizeof 为 3 * 4 = 12 字节
-        printf("arr1[%d]的行起点地址=%p, sizeof=%zu\n", i, (void*)arr1[i],
-               sizeof(arr1[i]));
-        for (int j = 0; j < 3; ++j) {
-            printf("  arr1[%d][%d]=%d, 地址=%p\n", i, j, arr1[i][j],
-                   (void*)&arr1[i][j]);
-        }
-    }
-    printf("开始 qsort 排序...\n");
-    // 每个格子是行数据，大小为 sizeof(arr1[0]) = 12 字节
-    qsort(arr1, 2, sizeof(arr1[0]), cmp_static_2d);
-    printf("排序后结果: arr1[0][0]=%d, arr1[1][0]=%d\n\n", arr1[0][0],
-           arr1[1][0]);
-
-    // 方式二：动态指针数组 int* arr2[2] (行指针存在栈上，数据在堆上或静态区)
-    printf("=== 验证方式二：动态指针数组 int* arr2[2] ===\n");
-    // rowA 和 rowB
-    // 是“两个彼此独立”的局部变量。在现代计算机中，栈内存是“向下生长（由高到低）”的。
-    // 先创建的 rowA 占据了高地址，后创建的 rowB 被压入了更低的地址。
-    // 因此微观上虽然每行内部连续递增，但宏观上 rowB 的首地址反而比 rowA 更小
-    // 表现出来的诡异现象就是：第二行的结尾（rowB[2]）刚好顶在了第一行开头（rowA[0]）的屁股后面。
-    int rowA[3] = {
-        2, 4, 6};  // 先声明，在栈的高地址方向，行内三个元素内存地址连续递增
-    int rowB[3] = {
-        1, 3, 5};  // 后声明，在栈的低地址方向，行内三个元素内存地址连续递增
-
-    // arr2 是一个包含 2 个 int* 指针的数组，即指针数组
-    int* arr2[2] = {rowA, rowB};
-
-    for (int i = 0; i < 2; ++i) {
-        // arr2[i] 的官方类型是 int*（指针），在64位系统下 sizeof 永远是 8 字节
-        printf("arr2[%d]指针变量自身的地址=%p, 里面存的行指针=%p, sizeof=%zu\n",
-               i, (void*)&arr2[i], (void*)arr2[i], sizeof(arr2[i]));
-        for (int j = 0; j < 3; ++j) {
-            printf("  arr2[%d][%d]=%d, 地址=%p\n", i, j, arr2[i][j],
-                   (void*)&arr2[i][j]);
-        }
-    }
-    printf("开始 qsort 排序...\n");
-    // 主数组里面装的是指针
-    // 所以每个格子大小是单个指针的大小 sizeof(arr2[0]) = 8 字节
-    qsort(arr2, 2, sizeof(arr2[0]), cmp_dynamic);
-    printf("排序后结果: arr2[0][0]=%d, arr2[1][0]=%d\n\n", arr2[0][0],
-           arr2[1][0]);
-
-    // 方式三：双重动态二级指针 int** arr3 (全套娃，第一层和第二层都在堆上)
-    printf("=== 验证方式三：双重动态二级指针 int** arr3 ===\n");
-    // 第一步：在堆上申请一个能放下 2 个 int* 指针的连续空间
-    int** arr3 = (int**)malloc(2 * sizeof(int*));
-
-    // 第二步：为每一行独立申请能放 3 个 int 数字的空间，并赋值
-    // 单次 malloc 内部由于是一维数组，所以行内的三个元素内存地址绝对是连续的。
-    // 但是两次 malloc 之间由于是独立申请，堆内存可能早就被其他程序插足
-    // 因此行与行之间在内存中是离散的。
-    // 导致的结果就是：第二行的首地址（arr3[1][0]）和第一行的结尾（arr3[0][2]）毫无关联
-    arr3[0] = (int*)malloc(3 * sizeof(int));
-    arr3[0][0] = 2;
-    arr3[0][1] = 4;
-    arr3[0][2] = 6;
-
-    arr3[1] = (int*)malloc(3 * sizeof(int));
-    arr3[1][0] = 1;
-    arr3[1][1] = 3;
-    arr3[1][2] = 5;
-
-    for (int i = 0; i < 2; ++i) {
-        // arr3[i] 的官方类型依然是 int*（指针），sizeof 固定是 8 字节
-        printf("arr3[%d]堆格子自身的地址=%p, 里面存的行指针=%p, sizeof=%zu\n",
-               i, (void*)&arr3[i], (void*)arr3[i], sizeof(arr3[i]));
-        for (int j = 0; j < 3; ++j) {
-            printf("  arr3[%d][%d]=%d, 地址=%p\n", i, j, arr3[i][j],
-                   (void*)&arr3[i][j]);
-        }
-    }
-    printf("开始 qsort 排序...\n");
-    // 第一层主数组里装的依然指针，单格大小是 sizeof(arr3[0]) = 8 字节
-    qsort(arr3, 2, sizeof(arr3[0]), cmp_dynamic);
-    printf("排序后结果: arr3[0][0]=%d, arr3[1][0]=%d\n\n", arr3[0][0],
-           arr3[1][0]);
-
-    return 0;
-}
-
-```
-
-```css
-=== 验证方式一：静态二维数组 int arr[2][3] ===
-arr1[0]的行起点地址=0x7ffd029ee3d0, sizeof=12
-  arr1[0][0]=2, 地址=0x7ffd029ee3d0
-  arr1[0][1]=4, 地址=0x7ffd029ee3d4
-  arr1[0][2]=6, 地址=0x7ffd029ee3d8
-arr1[1]的行起点地址=0x7ffd029ee3dc, sizeof=12
-  arr1[1][0]=1, 地址=0x7ffd029ee3dc
-  arr1[1][1]=3, 地址=0x7ffd029ee3e0
-  arr1[1][2]=5, 地址=0x7ffd029ee3e4
-开始 qsort 排序...
-  [cmp_static] a 存的地址=0x7ffd029ee3d0, 指向的数字=2
-排序后结果: arr1[0][0]=1, arr1[1][0]=2
-
-=== 验证方式二：动态指针数组 int* arr2[2] ===
-arr2[0]指针变量自身的地址=0x7ffd029ee3a0, 里面存的行指针=0x7ffd029ee3c4, sizeof=8
-  arr2[0][0]=2, 地址=0x7ffd029ee3c4
-  arr2[0][1]=4, 地址=0x7ffd029ee3c8
-  arr2[0][2]=6, 地址=0x7ffd029ee3cc
-arr2[1]指针变量自身的地址=0x7ffd029ee3a8, 里面存的行指针=0x7ffd029ee3b8, sizeof=8
-  arr2[1][0]=1, 地址=0x7ffd029ee3b8
-  arr2[1][1]=3, 地址=0x7ffd029ee3bc
-  arr2[1][2]=5, 地址=0x7ffd029ee3c0
-开始 qsort 排序...
-  [cmp_dynamic] a 存的格子地址=0x7ffd029ee3a0, 掏出来的行指针=0x7ffd029ee3c4, 指向的数字=2
-排序后结果: arr2[0][0]=1, arr2[1][0]=2
-
-=== 验证方式三：双重动态二级指针 int** arr3 ===
-arr3[0]堆格子自身的地址=0x365bb420, 里面存的行指针=0x365bb440, sizeof=8
-  arr3[0][0]=2, 地址=0x365bb440
-  arr3[0][1]=4, 地址=0x365bb444
-  arr3[0][2]=6, 地址=0x365bb448
-arr3[1]堆格子自身的地址=0x365bb428, 里面存的行指针=0x365bb460, sizeof=8
-  arr3[1][0]=1, 地址=0x365bb460
-  arr3[1][1]=3, 地址=0x365bb464
-  arr3[1][2]=5, 地址=0x365bb468
-开始 qsort 排序...
-  [cmp_dynamic] a 存的格子地址=0x365bb420, 掏出来的行指针=0x365bb440, 指向的数字=2
-排序后结果: arr3[0][0]=1, arr3[1][0]=2
-
-```
-
-### 数组传参会退化为指针
-
-```c
-// sums 有 5 列
-printf("%d %d %d", sizeof(int), sizeof(sums), sizeof(*sums) * cols);
-// 4 8 20
-```
-
-函数参数中的数组，本质是指针，sizeof 拿到的是地址大小（8 字节），不是数组长度。为什么指针是 8 字节？因为我都电脑是 64 位系统，地址长度 = 64 位 = 8 字节。
 
 ### 生成随机数组
 
