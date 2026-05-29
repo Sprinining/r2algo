@@ -13,8 +13,8 @@ int edge_cnt;
 int weight[MAXM];
 
 typedef struct {
-    int v_idx;   // 节点的编号
-    int v_dist;  // 当前从源点到该节点的已知最短距离（作为堆排序的依据）
+    int index;     // 节点的编号
+    int distance;  // 当前从源点到该节点的已知最短距离（作为堆排序的依据）
 } Vertex;
 
 // 小根堆
@@ -42,7 +42,7 @@ void percolate_up(int top, int idx) {
     Vertex v = heap[idx];
     int cur = idx;
     int parent = (cur - 1) >> 1;
-    while (cur > top && heap[parent].v_dist > v.v_dist) {
+    while (cur > top && heap[parent].distance > v.distance) {
         heap[cur] = heap[parent];
         cur = parent;
         parent = (cur - 1) >> 1;
@@ -55,7 +55,7 @@ void heapify(int idx) {
     int cur = idx;
     int lc = (cur << 1) + 1;
     while (lc < heap_sz) {
-        if (lc + 1 < heap_sz && heap[lc + 1].v_dist < heap[lc].v_dist) ++lc;
+        if (lc + 1 < heap_sz && heap[lc + 1].distance < heap[lc].distance) ++lc;
         heap[cur] = heap[lc];
         cur = lc;
         lc = (cur << 1) + 1;
@@ -96,15 +96,15 @@ int main() {
 
     // 源点初始化并首先入堆
     Vertex origin;
-    origin.v_idx = s;
-    origin.v_dist = 0;
+    origin.index = s;
+    origin.distance = 0;
     push(origin);
     // 源点到自身距离在入堆时直接明确为 0
     dist[s] = 0;
 
     while (heap_sz > 0) {
         // 弹出当前已知未结算节点中距离源点最近的节点
-        int u = pop().v_idx;
+        int u = pop().index;
         // 如果该点已经出过堆，说明之前弹出的那个值才是最短路
         // 堆里的这个是由于被多次松弛产生的“过时垃圾数据”，直接抛弃
         if (visit[u]) continue;
@@ -119,8 +119,8 @@ int main() {
                 // 剪枝：入堆时就地更新 dist[v] 锁定门槛，防止堆膨胀
                 dist[v] = dist[u] + w;
                 Vertex node;
-                node.v_idx = v;
-                node.v_dist = dist[v];
+                node.index = v;
+                node.distance = dist[v];
                 push(node);
             }
         }
