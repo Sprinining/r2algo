@@ -18,24 +18,22 @@ int main() {
     for (int i = 0; i < n; ++i) {
         // 当遇到比栈顶小的元素时，触发弹出
         while (sz > 0 && arr[stk[sz - 1]] > arr[i]) {
-            int top = stk[sz - 1];
+            int top = stk[--sz];
             // 右侧更小值：就是当前让它弹出的这个元素 i
             right_smaller[top] = i;
             // 左侧更小值：因为栈是单调递增的
-            // 压在 top 底下的那个元素（即 stk[sz - 2]）
+            // 压在 top 底下的那个元素
             // 就是 top 左侧第一个比它小的元素
-            left_smaller[top] = sz > 1 ? stk[sz - 2] : -1;
-            --sz;
+            left_smaller[top] = sz > 0 ? stk[sz - 1] : -1;
         }
         stk[sz++] = i;
     }
 
     // 清空栈中残留的元素
     while (sz > 0) {
-        int top = stk[sz - 1];
+        int top = stk[--sz];
         right_smaller[top] = -1;
-        left_smaller[top] = sz > 1 ? stk[sz - 2] : -1;
-        --sz;
+        left_smaller[top] = sz > 0 ? stk[sz - 1] : -1;
     }
 
     // 修正相同元素带来的“左侧边界”误差
