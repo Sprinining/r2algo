@@ -15,9 +15,8 @@ int* dailyTemperatures(int* temperatures, int temperaturesSize,
 
     for (int i = 0; i < n; ++i) {
         while (sz > 0 && temperatures[stk[sz - 1]] < temperatures[i]) {
-            int top = stk[sz - 1];
+            int top = stk[--sz];
             res[top] = i - top;
-            --sz;
         }
         stk[sz++] = i;
     }
