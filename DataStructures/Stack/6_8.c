@@ -4,22 +4,28 @@
 
 int maxWidthRamp(int* nums, int numsSize) {
     int n = numsSize;
-    int* dp = malloc(sizeof(int) * n);
+    if (n < 2) return 0;
 
-    // 依赖下方位置和左侧位置
-    // 从下往上，从左往右
-    for (int i = n - 1; i >= 0; --i) {
-        dp[i] = 0;
-        for (int j = i + 1; j < n; ++j) {
-            if (nums[i] <= nums[j]) {
-                dp[j] = j - i;
-            } else {
-                int down = i + 1 < n ? dp[j] : 0;
-                int left = j - 1 >= 0 ? dp[j - 1] : 0;
-                dp[j] = MMAX(dp[j], left);
-            }
+    // 右侧最大值
+    int* right_max = malloc(sizeof(int) * n);
+    right_max[n - 1] = nums[n - 1];
+    for (int i = n - 2; i >= 0; --i)
+        right_max[i] = MMAX(nums[i], right_max[i + 1]);
+
+    int l = 0, r = 0;
+    int res = 0;
+
+    while (r < n) {
+        // 如果当前左指针的值，小于等于右指针及其右边的最大值
+        // 说明以 l 为起点，最远能一直扩展到 r（甚至更远）
+        if (nums[l] <= right_max[r]) {
+            res = MMAX(res, r - l);
+            ++r;
+        } else {
+            // 尝试换一个更小的起点
+            ++l;
         }
     }
 
-    return dp[n - 1];
+    return res;
 }
