@@ -20,8 +20,9 @@ bool balance(int len) {
     return len == 0;
 }
 
-// 左闭右开
-// 外层循环是 l，内层循环负责将 r 向右单调扩展
+// 采用先斩后奏策略
+// while 循环会一直缩减 l 直到窗口不平衡才弹出来，然后再手动回退状态
+// 拉跨
 int balancedString(char* s) {
     int n = strlen(s);
     limit = n >> 2;
@@ -35,17 +36,24 @@ int balancedString(char* s) {
         ++cnt[idx];
     }
 
+    if (balance(0)) return 0;
+
     int res = n;
-    // [l, r) 左闭右开
-    // r 的生命周期独立于 l 的 for 循环，一路向右不回头
-    for (int l = 0, r = 0; l < n; ++l) {
-        while (r < n && !balance(r - l)) {
-            --cnt[s[r]];
-            ++r;
+    // [l, r]
+    for (int l = 0, r = 0; r < n; ++r) {
+        --cnt[s[r]];
+        if (!balance(r - l + 1)) continue;
+
+        // 只要平衡就一直缩，缩到不平衡了才会跌出 while 循环
+        while (balance(r - l + 1)) {
+            ++cnt[s[l]];
+            ++l;
         }
-        // 走出 while 说明要么合法了，要么 r==n。需要用 balance 过滤一下
-        if (balance(r - l)) res = MMIN(res, r - l);
-        ++cnt[s[l]];
+
+        // 撤销与回滚：既然上面跌出了循环，说明此时的 l 已经缩过头导致不合法了
+        --l;
+        --cnt[s[l]];
+        res = MMIN(res, r - l + 1);
     }
 
     return res;

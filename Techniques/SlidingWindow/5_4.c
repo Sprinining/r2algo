@@ -20,6 +20,9 @@ bool balance(int len) {
     return len == 0;
 }
 
+// 同样是外层 l 控制，但强制使用双闭区间 [l, r]
+// 为此必须在循环前手动处理 s[0]
+// 拉跨
 int balancedString(char* s) {
     int n = strlen(s);
     limit = n >> 2;
@@ -33,7 +36,8 @@ int balancedString(char* s) {
         ++cnt[idx];
     }
 
-    // 特判
+    // 由于定义是 [0, 0] 双闭区间开始，刚进来时 s[0] 已经在窗内了
+    // 必须手动在外部把 s[0] 的外部计数减掉
     if (balance(0)) return 0;
 
     int res = n;

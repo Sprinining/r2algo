@@ -20,8 +20,9 @@ bool balance(int len) {
     return len == 0;
 }
 
-// 左闭右开
-// 外层循环是 l，内层循环负责将 r 向右单调扩展
+// 同样是双闭区间，但利用 while 条件作为安全伞
+// 在迈出破坏性的下一步之前，提前在循环内部安全的结算答案
+// 推荐：标准的“右指针单向右扩，左指针在内部 while 追赶”的黄金模板
 int balancedString(char* s) {
     int n = strlen(s);
     limit = n >> 2;
@@ -35,17 +36,22 @@ int balancedString(char* s) {
         ++cnt[idx];
     }
 
+    if (balance(0)) return 0;
+
     int res = n;
-    // [l, r) 左闭右开
-    // r 的生命周期独立于 l 的 for 循环，一路向右不回头
-    for (int l = 0, r = 0; l < n; ++l) {
-        while (r < n && !balance(r - l)) {
-            --cnt[s[r]];
-            ++r;
+    // [l, r]
+    for (int l = 0, r = 0; r < n; ++r) {
+        --cnt[s[r]];
+
+        while (balance(r - l + 1)) {
+            // 提前结算：趁着现在还合法，赶紧把当前的长度记录下来
+            res = MMIN(res, r - l + 1);
+            // 结算完后，再放心大胆地执行左缩
+            ++cnt[s[l]];
+            ++l;
         }
-        // 走出 while 说明要么合法了，要么 r==n。需要用 balance 过滤一下
-        if (balance(r - l)) res = MMIN(res, r - l);
-        ++cnt[s[l]];
+        // 无需回退：当 balance 失败退出 while，不合法的 l 没有机会污染 res
+        // 完美的答案在上一次循环中已经被提前安全记录了
     }
 
     return res;
