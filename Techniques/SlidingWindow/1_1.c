@@ -6,11 +6,11 @@ int minSubArrayLen(int target, int* nums, int numsSize) {
     // 以 nums[r] 结尾的子数组是否符合条件
     for (int l = 0, r = 0, sum = 0; r < numsSize; ++r) {
         sum += nums[r];
-        // 窗口初始增长中
-        if (sum < target) continue;
         // 尽量减小以 nums[r] 结尾的子数组长度
-        while (sum - nums[l] >= target) sum -= nums[l++];
-        res = MMIN(res, r - l + 1);
+        while (sum >= target) {
+            res = MMIN(res, r - l + 1);
+            sum -= nums[l++];
+        }
     }
     return res == INF_MAX ? 0 : res;
 }
