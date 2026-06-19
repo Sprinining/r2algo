@@ -39,6 +39,7 @@ long long divide(int* arr, int left, int right, int* temp) {
     // 遍历右半区，由于右半区单调递增，左指针 l 只需一直向右推进，不需要回退
     for (int l = left, r = mid + 1; r <= right; ++r) {
         while (l <= mid && arr[l] <= arr[r]) sum += arr[l++];
+        // 结算与 nums[r] 相关的小和
         mid_sum += sum;
     }
 

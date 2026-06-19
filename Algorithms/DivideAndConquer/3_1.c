@@ -30,6 +30,7 @@ int divide(int* nums, int left, int right, int* temp) {
     // 双指针
     for (int l = left, r = mid + 1; r <= right; ++r) {
         while (l <= mid && (long long)nums[l] <= 2ll * nums[r]) ++l;
+        // 结算与 nums[r] 相关的翻转对
         if (l <= mid) m_cnt += mid - l + 1;
     }
     merge(nums, left, mid, right, temp);
